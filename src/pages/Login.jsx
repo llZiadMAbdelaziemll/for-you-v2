@@ -27,7 +27,7 @@ const LoginFormLayout = styled.div`
 const LogoLayout = styled.div`
   min-height: 100vh;
   width: 100%;
-  background: url("./public/login/logolayout.jpg") no-repeat;
+  background: url("./login/logolayout.jpg") no-repeat;
   background-size: cover;
   padding-top: 8rem;
   // background-color: var(--color-grey-50);
