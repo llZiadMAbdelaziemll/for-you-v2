@@ -4,10 +4,11 @@ import DashboardLayout from "../features/dashboard/DashboardLayout";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import { useUser } from "../features/authentication/useUser";
+import PatientDashboardLayout from "../features/dashboard/PatientDashBoardLayout";
 
 function Dashboard() {
   const { user } = useUser();
-  // if (user?.user_metadata?.role === "doctor")
+  const userRole = user?.user_metadata?.role;
   //   return (
   //     <>
   //       <Row type="horizontal">
@@ -28,7 +29,11 @@ function Dashboard() {
         <DashboardFilter />
       </Row>
 
-      <DashboardLayout />
+      {userRole === "patient" ? (
+        <PatientDashboardLayout />
+      ) : (
+        <DashboardLayout />
+      )}
     </>
   );
 }

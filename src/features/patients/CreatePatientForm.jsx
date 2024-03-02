@@ -8,10 +8,19 @@ import FormRow from "../../ui/FormRow";
 
 import { useCreatePatient } from "./useCreatePatient";
 import { useEditPatient } from "./useEditPatient";
+import { useReports } from "../reports/useReports";
+import { useReportsId } from "../reports/useReportsId";
+import { useReport } from "../reports/useReport";
 
 function CreatePatientForm({ patientToEdit = {}, onCloseModal }) {
   const { isCreating, createPatient } = useCreatePatient();
   const { isEditing, editPatient } = useEditPatient();
+  const { reportsIds, isLoading } = useReportsId();
+  const newReportId = reportsIds?.at(-1)?.id;
+
+  const { report } = useReport(newReportId);
+  // const newReport = report(newReportId);
+  console.log(report);
   const isWorking = isCreating || isEditing;
 
   const { id: editId, ...editValues } = patientToEdit;
@@ -38,7 +47,7 @@ function CreatePatientForm({ patientToEdit = {}, onCloseModal }) {
       );
     else
       createPatient(
-        { ...data, image: image },
+        { ...data, image: image, reportId: newReportId, report: report },
         {
           onSuccess: (data) => {
             reset();

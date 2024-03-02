@@ -2,12 +2,15 @@ import { getToday } from "../utils/helpers";
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getPatients() {
-  const { data, error } = await supabase.from("patients").select("*");
+  const { data, error } = await supabase
+    .from("patients")
+    .select("*,reports(*)");
 
   if (error) {
     console.error(error);
     throw new Error("patients could not be loaded");
   }
+  console.log(data);
 
   return data;
 }
@@ -45,7 +48,7 @@ export async function getTodayPatients() {
 export async function createEditPatient(newPatient, id) {
   const hasImagePath = newPatient.image?.startsWith?.(supabaseUrl);
 
-  const imageName = `${newPatient.image.name}?t=${Math.random()}`.replaceAll(
+  const imageName = `${newPatient.image?.name}?t=${Math.random()}`.replaceAll(
     "/",
     ""
   );

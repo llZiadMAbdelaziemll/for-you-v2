@@ -100,7 +100,7 @@ function AppointmentRow({ appointment }) {
         <span>{condition}</span>
       </Stacked>
       <Stacked>
-        <span>{isPaid.toString()}</span>
+        <span>{isPaid?.toString()}</span>
       </Stacked>
       <Stacked>
         <span>{status}</span>

@@ -7,6 +7,7 @@ import { subtractDates } from "../utils/helpers";
 import { appointments } from "./data-appointments";
 import { doctors } from "./data-doctors";
 import { patients } from "./data-patients";
+import { reports } from "./data-reports";
 
 // const originalSettings = {
 //   minBookingLength: 3,
@@ -19,7 +20,10 @@ async function deletePatients() {
   const { error } = await supabase.from("patients").delete().gt("id", 0);
   if (error) console.log(error.message);
 }
-
+async function deleteReports() {
+  const { error } = await supabase.from("reports").delete().gt("id", 0);
+  if (error) console.log(error.message);
+}
 async function deleteDoctors() {
   const { error } = await supabase.from("doctors").delete().gt("id", 0);
   if (error) console.log(error.message);
@@ -29,9 +33,28 @@ async function deleteAppointments() {
   const { error } = await supabase.from("appointments").delete().gt("id", 0);
   if (error) console.log(error.message);
 }
-
+async function createReports() {
+  const { error } = await supabase.from("reports").insert(reports);
+  if (error) console.log(error.message);
+}
 async function createPatients() {
-  const { error } = await supabase.from("patients").insert(patients);
+  const { data: reportsIds } = await supabase
+    .from("reports")
+    .select("id")
+    .order("id");
+  const allReportIds = reportsIds.map((report) => report.id);
+
+  const finalPatients = patients.map((patient) => {
+    const patientReport = reports.at(patient.reportId - 1);
+
+    return {
+      ...patient,
+      report: patientReport,
+
+      reportId: allReportIds.at(patient.reportId - 1),
+    };
+  });
+  const { error } = await supabase.from("patients").insert(finalPatients);
   if (error) console.log(error.message);
 }
 
@@ -42,11 +65,17 @@ async function createDoctors() {
 
 async function createAppointments() {
   // Bookings need a guestId and a cabinId. We can't tell Supabase IDs for each object, it will calculate them on its own. So it might be different for different people, especially after multiple uploads. Therefore, we need to first get all guestIds and cabinIds, and then replace the original IDs in the booking data with the actual ones from the DB
+  const { data: reportsIds } = await supabase
+    .from("reports")
+    .select("id")
+    .order("id");
+  const allReportIds = reportsIds.map((report) => report.id);
+
   const { data: patientsIds } = await supabase
     .from("patients")
     .select("id")
     .order("id");
-  const allPatientIds = patientsIds.map((doctor) => doctor.id);
+  const allPatientIds = patientsIds.map((patient) => patient.id);
   const { data: doctorsIds } = await supabase
     .from("doctors")
     .select("id")
@@ -56,6 +85,20 @@ async function createAppointments() {
   const finalAppointments = appointments.map((appointment) => {
     const doctorName = doctors.at(appointment.doctorId - 1).name;
     const patientName = patients.at(appointment.patientId - 2).name;
+    const patientReport = reports.at(
+      patients.at(appointment.patientId - 2).reportId - 1
+    );
+    // patients
+    //   .map((patient) => {
+    //     const pReport = reports.at(patient.reportId - 1);
+    //     return {
+    //       ...patient,
+    //       report: pReport,
+    //       reportId: allReportIds.at(patient.reportId - 1),
+    //     };
+    //   })
+    //   .at(appointment.patientId - 2).report;
+    console.log(patientReport);
     const numOfCons = subtractDates(appointment.endDate, appointment.startDate);
     // const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
     // const extrasPrice = appointment.hasBreakfast
@@ -87,7 +130,7 @@ async function createAppointments() {
       name: patientName,
       doctor: doctorName,
       numOfCons,
-
+      report: patientReport,
       patientId: allPatientIds.at(appointment.patientId - 2),
       doctorId: allDoctorIds.at(appointment.doctorId - 1),
       status,
@@ -111,8 +154,10 @@ function Uploader() {
     await deleteAppointments();
     await deletePatients();
     await deleteDoctors();
+    await deleteReports();
 
     // Bookings need to be created LAST
+    await createReports();
     await createPatients();
     await createDoctors();
     await createAppointments();
@@ -126,7 +171,12 @@ function Uploader() {
     await createAppointments();
     setIsLoading(false);
   }
-
+  // async function uploadReports() {
+  //   setIsLoading(true);
+  //   await deleteReports();
+  //   await createReports();
+  //   setIsLoading(false);
+  // }
   return (
     <div
       style={{
@@ -149,6 +199,9 @@ function Uploader() {
       <Button onClick={uploadAppointments} disabled={isLoading}>
         Upload bookings ONLY
       </Button>
+      {/* <Button onClick={uploadReports} disabled={isLoading}>
+        Upload reports ONLY
+      </Button> */}
     </div>
   );
 }

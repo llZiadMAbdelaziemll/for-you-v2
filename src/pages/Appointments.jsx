@@ -3,8 +3,11 @@ import Row from "../ui/Row";
 import AppointmentTable from "../features/appointments/AppointmentTable";
 import AppointmentTableOperations from "../features/appointments/AppointmentTableOperations";
 import AddAppointment from "../features/appointments/AddAppointment";
+import { useUser } from "../features/authentication/useUser";
 
 function Appointments() {
+  const { user } = useUser();
+  const userRole = user?.user_metadata?.role;
   return (
     <>
       <Row type="horizontal">
@@ -13,7 +16,7 @@ function Appointments() {
       </Row>
       <Row>
         <AppointmentTable />
-        <AddAppointment />
+        {userRole === "patient" && <AddAppointment />}
       </Row>
     </>
   );

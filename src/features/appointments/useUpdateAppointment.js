@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createEditAppointment } from "../../services/apiAppointments";
+import { updateAppointment } from "../../services/apiAppointments";
 import { toast } from "react-hot-toast";
 
-export function useEditAppointment() {
+export function useUpdateAppointment() {
   const queryClient = useQueryClient();
 
   const { mutate: editAppointment, isLoading: isEditing } = useMutation({
     mutationFn: ({ newAppointmentData, id }) =>
-      createEditAppointment(newAppointmentData, id),
+      updateAppointment(id, newAppointmentData),
     onSuccess: () => {
       toast.success("Appointment successfully edited");
       queryClient.invalidateQueries({ queryKey: ["appointments"] });

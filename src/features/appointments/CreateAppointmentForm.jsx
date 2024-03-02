@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
@@ -7,50 +7,90 @@ import FileInput from "../../ui/FileInput";
 import FormRow from "../../ui/FormRow";
 
 import { useCreateAppointment } from "./useCreateAppointment";
-import { useEditAppointment } from "./useEditAppointment";
+import { useUpdateAppointment } from "./useUpdateAppointment";
 import { useUser } from "../authentication/useUser";
 import { useDoctors } from "../doctors/useDoctors";
+import { usePatients } from "../patients/usePatients";
 import Select from "../../ui/Select";
+import { useReportsId } from "../reports/useReportsId";
+import { useReport } from "../reports/useReport";
 
 function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
-  const { isCreating, createAppointment } = useCreateAppointment();
-  const { isEditing, editAppointment } = useEditAppointment();
   const { user } = useUser();
+  const userName = user?.user_metadata?.name;
+  const { isCreating, createAppointmentFn } = useCreateAppointment();
+  const { isEditing, editAppointment } = useUpdateAppointment();
+  const { doctors } = useDoctors();
+  const { patients } = usePatients();
+  const { reportsIds, isLoading } = useReportsId();
+
+  const myObject = patients
+    ?.filter((patient) => {
+      return patient.name === userName;
+    })
+    ?.at(0);
+  const { report: myReport } = useReport(myObject?.reportId);
+
+  console.log(myObject?.report);
 
   const isWorking = isCreating || isEditing;
 
   const { id: editId, ...editValues } = appointmentToEdit;
   const isEditSession = Boolean(editId);
 
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+  const { register, handleSubmit, reset, getValues, control, formState } =
+    useForm({
+      defaultValues: isEditSession ? editValues : {},
+    });
   const { errors } = formState;
 
   function onSubmit(data) {
-    console.log(data);
+    const newDoctorId = doctors
+      ?.filter((doctor) => {
+        return doctor?.name == data?.doctors?.name;
+      })
+      ?.at(0).id;
     const image = typeof data.image === "string" ? data.image : data.image[0];
+    console.log(newDoctorId);
+    const {
+      condition,
+      status,
+      startDate,
+      doctors: { name: doctorName },
+      patients: { name: patientName, patientMobile },
+    } = data;
 
-    if (isEditSession)
-      editAppointment(
-        { newAppointmentData: { ...data, image }, id: editId },
-        {
-          onSuccess: (data) => {
-            reset();
-            onCloseModal?.();
-          },
-        }
-      );
-    else
-      createAppointment(
-        { ...data, image: image },
-        {
-          onSuccess: (data) => {
-            reset();
-            onCloseModal?.();
-          },
-        }
-      );
+    // if (isEditSession)
+    //   editAppointment(
+    //     { newAppointmentData: { ...data, image }, id: editId },
+    //     {
+    //       onSuccess: (data) => {
+    //         reset();
+    //         onCloseModal?.();
+    //       },
+    //     }
+    //   );
+    // else
+    createAppointmentFn(
+      {
+        condition,
+        status,
+        startDate,
+        name: patientName,
+        mobile: patientMobile,
+        doctor: doctorName,
+        image: image,
+        patientId: myObject.id,
+        doctorId: newDoctorId,
+        report: myReport,
+      },
+      {
+        onSuccess: (data) => {
+          reset();
+          onCloseModal?.();
+        },
+      }
+    );
   }
 
   function onError(errors) {
@@ -72,7 +112,22 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
           })}
         />
       </FormRow>
-
+      <FormRow label="Select Doctor">
+        <Controller
+          name="doctors.name" // The name should match the key in your data object
+          control={control}
+          defaultValue="Dr. Johnson" // Set the default value as needed
+          render={({ field }) => {
+            return (
+              <Select
+                options={doctors}
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+              />
+            );
+          }}
+        />
+      </FormRow>
       <FormRow label="Mobile" error={errors?.patients?.mobile?.message}>
         <Input
           type="text"
@@ -84,23 +139,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="Doctor" error={errors?.doctors?.name?.message}>
-        {/* <Select
-          options={[
-            { value: "name-asc", label: "Sort by name (A-Z)" },
-            { value: "name-desc", label: "Sort by name (Z-A)" },
-            { value: "price-asc", label: "Sort by price (low first)" },
-            { value: "price-desc", label: "Sort by price (high first)" },
-            {
-              value: "joiningDate-asc",
-              label: "Sort by joining Date (recent first)",
-            },
-            {
-              value: "joiningDate-desc",
-              label: "Sort by joining Date (earlier first)",
-            },
-          ]}
-        /> */}
+      {/* <FormRow label="Doctor" error={errors?.doctors?.name?.message}>
         <Input
           type="text"
           id="doctors.name"
@@ -109,7 +148,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
             required: "This field is required",
           })}
         />
-      </FormRow>
+      </FormRow> */}
 
       <FormRow label="Start date" error={errors?.startDate?.message}>
         <Input

@@ -15,11 +15,15 @@ const StyledSelect = styled.select`
 `;
 
 function Select({ options, value, onChange, ...props }) {
+  console.log(value);
   return (
     <StyledSelect value={value} onChange={onChange} {...props}>
-      {options.map((option) => (
-        <option value={option.value} key={option.value}>
-          {option.label}
+      {options?.map((option) => (
+        <option
+          value={option.value || option.name}
+          key={option.value || option.id}
+        >
+          {option.label ? option.label : option.name}
         </option>
       ))}
     </StyledSelect>

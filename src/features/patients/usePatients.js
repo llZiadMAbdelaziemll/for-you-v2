@@ -10,6 +10,5 @@ export function usePatients() {
     queryKey: ["patients"],
     queryFn: getPatients,
   });
-
   return { isLoading, error, patients };
 }
