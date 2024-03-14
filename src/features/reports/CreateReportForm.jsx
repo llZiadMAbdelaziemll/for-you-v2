@@ -34,15 +34,15 @@ function CreateReportForm({
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
-  const {
-    id,
-    name,
-    doctor,
-    image,
-    patients: { id: patientId, name: patientName, image: patientImage },
-    patients,
-  } = appointment;
-  console.log(patients);
+  // const {
+  //   id,
+  //   name,
+  //   doctor,
+  //   image,
+  //   // patients: { id: patientId, name: patientName, image: patientImage },
+  //   patients,
+  // } = appointment;
+
   function onSubmit(data) {
     console.log(data);
     console.log(editId);
@@ -59,11 +59,11 @@ function CreateReportForm({
       editPatient(
         {
           newPatientData: {
-            name: patientName,
-            image: patientImage,
+            name: appointment?.patients?.name,
+            image: appointment?.patients?.image,
             report: data,
           },
-          id: patientId,
+          id: appointment?.patients?.id,
         },
         {
           onSuccess: (data) => {
@@ -75,7 +75,12 @@ function CreateReportForm({
       editAppointment(
         {
           id: appointment.id,
-          newAppointmentData: { id, name, doctor, report: data },
+          newAppointmentData: {
+            id: appointment?.id,
+            name: appointment?.name,
+            doctor: appointment?.doctor,
+            report: data,
+          },
         },
         {
           onSuccess: (data) => {

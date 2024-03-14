@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import DashboardBox from "./DashboardBox";
+import Row from "../../ui/Row";
+import { useUser } from "../authentication/useUser";
+import { usePatients } from "../patients/usePatients";
+import Diagnosis from "./Diagnosis";
 
 const StyledSurvayChart = styled.div`
   display: flex;
@@ -43,12 +47,28 @@ const Text = styled.p`
   color: #96a2b4;
 `;
 function Welcome({ name }) {
+  const { user } = useUser();
+  const userName = user?.user_metadata?.name;
+
+  const { isLoading: isLoading1, patients: allPatients } = usePatients();
+
+  // calculate doctor patients
+  const myProfile = allPatients?.filter(
+    (patient) => patient?.name === userName
+  );
+
+  const report = myProfile?.at(0)?.reports;
   return (
     <StyledSurvayChart>
       <Image src="/welcome.png" />
       <Content>
-        <WelcomeBack>Welcome back</WelcomeBack>
-        <Name>{name}!</Name>
+        <Row type="horizontal">
+          <div>
+            <WelcomeBack>Welcome back</WelcomeBack>
+            <Name>{name}!</Name>
+          </div>
+          <Diagnosis value={`${report ? `${report?.diagnosis}` : "none"}`} />
+        </Row>
         <Text>
           We would like to take this opportunity to welcome you to our practice
           and to thank you for choosing our physicians to participate in your

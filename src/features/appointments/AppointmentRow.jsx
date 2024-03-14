@@ -20,6 +20,7 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteAppointment } from "./useDeleteAppointment";
 import CreateAppointmentForm from "./CreateAppointmentForm";
+import { useUser } from "../authentication/useUser";
 
 const Doctor = styled.div`
   font-size: 1.6rem;
@@ -44,20 +45,27 @@ const Stacked = styled.div`
 `;
 
 function AppointmentRow({ appointment }) {
+  const { user } = useUser();
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteAppointment, isDeleting } = useDeleteAppointment();
-
+  const userName = user?.user_metadata?.name;
+  const userRole = user?.user_metadata?.role;
   const {
     id: appointmentId,
     created_at,
-    condition,
+
     startDate,
     endDate,
     isPaid,
     status,
     numOfCons,
-    patients: { name: patientName, image, mobile },
+    patients: {
+      name: patientName,
+      image,
+      mobile,
+      reports: { diagnosis },
+    },
     doctors: { name: doctorName },
   } = appointment;
   // const statusToTagName = {
@@ -97,7 +105,7 @@ function AppointmentRow({ appointment }) {
         <span>{numOfCons}</span>
       </Stacked>
       <Stacked>
-        <span>{condition}</span>
+        <span>{diagnosis}</span>
       </Stacked>
       <Stacked>
         <span>{isPaid?.toString()}</span>
@@ -110,34 +118,40 @@ function AppointmentRow({ appointment }) {
         <Menus.Menu>
           <Menus.Toggle id={appointmentId} />
           <Menus.List id={appointmentId}>
-            <Menus.Button
-              icon={<HiEye />}
-              onClick={() => navigate(`/appointments/${appointmentId}`)}
-            >
-              See details
-            </Menus.Button>
+            {userRole === "doctor" && (
+              <>
+                <Menus.Button
+                  icon={<HiEye />}
+                  onClick={() => navigate(`/appointments/${appointmentId}`)}
+                >
+                  See details
+                </Menus.Button>
 
-            {status === "unconfirmed" && (
-              <Menus.Button
-                icon={<HiArrowDownOnSquare />}
-                onClick={() => navigate(`/checkin/${appointmentId}`)}
-              >
-                Check in
-              </Menus.Button>
-            )}
+                {status === "unconfirmed" && (
+                  <Menus.Button
+                    icon={<HiArrowDownOnSquare />}
+                    onClick={() => navigate(`/checkin/${appointmentId}`)}
+                  >
+                    Check in
+                  </Menus.Button>
+                )}
 
-            {status === "checked-in" && (
-              <Menus.Button
-                icon={<HiArrowUpOnSquare />}
-                onClick={() => checkout(appointmentId)}
-                disabled={isCheckingOut}
-              >
-                Check out
-              </Menus.Button>
+                {status === "checked-in" && (
+                  <Menus.Button
+                    icon={<HiArrowUpOnSquare />}
+                    onClick={() => checkout(appointmentId)}
+                    disabled={isCheckingOut}
+                  >
+                    Check out
+                  </Menus.Button>
+                )}
+              </>
             )}
-            <Modal.Open opens="edit">
-              <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
-            </Modal.Open>
+            {userRole !== " patient" && (
+              <Modal.Open opens="edit">
+                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              </Modal.Open>
+            )}
             <Modal.Open opens="delete">
               <Menus.Button icon={<HiTrash />}>Delete appointment</Menus.Button>
             </Modal.Open>

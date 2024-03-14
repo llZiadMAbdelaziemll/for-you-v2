@@ -85,9 +85,17 @@ async function createAppointments() {
   const finalAppointments = appointments.map((appointment) => {
     const doctorName = doctors.at(appointment.doctorId - 1).name;
     const patientName = patients.at(appointment.patientId - 2).name;
+    const patientImage = patients.at(appointment.patientId - 2).image;
+    const patientGender = patients.at(appointment.patientId - 2).gender;
+
+    const patientMobile = patients.at(appointment.patientId - 2).mobile;
+    const patientEmail = patients.at(appointment.patientId - 2).email;
     const patientReport = reports.at(
       patients.at(appointment.patientId - 2).reportId - 1
     );
+    const patientDiagnosis = reports.at(
+      patients.at(appointment.patientId - 2).reportId - 1
+    ).diagnosis;
     // patients
     //   .map((patient) => {
     //     const pReport = reports.at(patient.reportId - 1);
@@ -127,8 +135,13 @@ async function createAppointments() {
 
     return {
       ...appointment,
+      image: patientImage,
       name: patientName,
       doctor: doctorName,
+      gender: patientGender,
+      email: patientEmail,
+      mobile: patientMobile,
+      diagnosis: patientDiagnosis,
       numOfCons,
       report: patientReport,
       patientId: allPatientIds.at(appointment.patientId - 2),

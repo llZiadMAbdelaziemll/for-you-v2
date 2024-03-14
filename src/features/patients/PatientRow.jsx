@@ -10,6 +10,7 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import { useUser } from "../authentication/useUser";
 
 const Img = styled.img`
   display: block;
@@ -43,9 +44,10 @@ const BloodGroup = styled.div`
 // `;
 
 function PatientRow({ patient }) {
+  const { user } = useUser();
   const { isDeleting, deletePatient } = useDeletePatient();
   const { isCreating, createPatient } = useCreatePatient();
-
+  const userRole = user?.user_metadata?.role;
   const {
     id: patientId,
     image,
@@ -82,46 +84,48 @@ function PatientRow({ patient }) {
 
       <Field>{treatment}</Field>
 
-      <div>
-        <Modal>
-          <Menus.Menu>
-            <Menus.Toggle id={patientId} />
+      {userRole === "admin" && (
+        <div>
+          <Modal>
+            <Menus.Menu>
+              <Menus.Toggle id={patientId} />
 
-            <Menus.List id={patientId}>
-              <Menus.Button
-                icon={<HiSquare2Stack />}
-                onClick={handleDuplicate}
-                disabled={isCreating}
-              >
-                Duplicate
-              </Menus.Button>
-              <Modal.Open opens="edit">
-                <Menus.Button icon={<HiPencil />} onClick={handleDuplicate}>
-                  Edit
+              <Menus.List id={patientId}>
+                <Menus.Button
+                  icon={<HiSquare2Stack />}
+                  onClick={handleDuplicate}
+                  disabled={isCreating}
+                >
+                  Duplicate
                 </Menus.Button>
-              </Modal.Open>
+                <Modal.Open opens="edit">
+                  <Menus.Button icon={<HiPencil />} onClick={handleDuplicate}>
+                    Edit
+                  </Menus.Button>
+                </Modal.Open>
 
-              <Modal.Open opens="delete">
-                <Menus.Button icon={<HiTrash />} onClick={handleDuplicate}>
-                  Delete
-                </Menus.Button>
-              </Modal.Open>
-            </Menus.List>
+                <Modal.Open opens="delete">
+                  <Menus.Button icon={<HiTrash />} onClick={handleDuplicate}>
+                    Delete
+                  </Menus.Button>
+                </Modal.Open>
+              </Menus.List>
 
-            <Modal.Window name="edit">
-              <CreatePatientForm patientToEdit={patient} />
-            </Modal.Window>
+              <Modal.Window name="edit">
+                <CreatePatientForm patientToEdit={patient} />
+              </Modal.Window>
 
-            <Modal.Window name="delete">
-              <ConfirmDelete
-                resourceName="patients"
-                disabled={isDeleting}
-                onConfirm={() => deletePatient(patientId)}
-              />
-            </Modal.Window>
-          </Menus.Menu>
-        </Modal>
-      </div>
+              <Modal.Window name="delete">
+                <ConfirmDelete
+                  resourceName="patients"
+                  disabled={isDeleting}
+                  onConfirm={() => deletePatient(patientId)}
+                />
+              </Modal.Window>
+            </Menus.Menu>
+          </Modal>
+        </div>
+      )}
     </Table.Row>
   );
 }

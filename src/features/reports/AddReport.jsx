@@ -7,7 +7,7 @@ function AddReport() {
     <div>
       <Modal>
         <Modal.Open opens="report-form">
-          <Button>Enter your report</Button>
+          <Button>Fill report</Button>
         </Modal.Open>
         <Modal.Window name="report-form">
           <CreateReportForm />

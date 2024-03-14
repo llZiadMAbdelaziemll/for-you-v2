@@ -14,6 +14,7 @@ import { usePatients } from "../patients/usePatients";
 import Select from "../../ui/Select";
 import { useReportsId } from "../reports/useReportsId";
 import { useReport } from "../reports/useReport";
+import { getToday } from "../../utils/helpers";
 
 function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
   const { user } = useUser();
@@ -45,52 +46,68 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
   const { errors } = formState;
 
   function onSubmit(data) {
-    const newDoctorId = doctors
+    const newDoctor = doctors
       ?.filter((doctor) => {
         return doctor?.name == data?.doctors?.name;
       })
-      ?.at(0).id;
-    const image = typeof data.image === "string" ? data.image : data.image[0];
-    console.log(newDoctorId);
+      ?.at(0);
+    // const image = typeof data.image === "string" ? data.image : data.image[0];
+    console.log(newDoctor);
     const {
-      condition,
+      // condition,
       status,
       startDate,
-      doctors: { name: doctorName },
-      patients: { name: patientName, patientMobile },
+      // doctors: { name: doctorName },
+      // patients: {
+      //   name: patientName,
+      //   mobile: patientMobile,
+      //   image: patientImage,
+      //   gender: patientGender,
+      // },
     } = data;
 
-    // if (isEditSession)
-    //   editAppointment(
-    //     { newAppointmentData: { ...data, image }, id: editId },
-    //     {
-    //       onSuccess: (data) => {
-    //         reset();
-    //         onCloseModal?.();
-    //       },
-    //     }
-    //   );
-    // else
-    createAppointmentFn(
-      {
-        condition,
-        status,
-        startDate,
-        name: patientName,
-        mobile: patientMobile,
-        doctor: doctorName,
-        image: image,
-        patientId: myObject.id,
-        doctorId: newDoctorId,
-        report: myReport,
-      },
-      {
-        onSuccess: (data) => {
-          reset();
-          onCloseModal?.();
+    if (isEditSession)
+      editAppointment(
+        {
+          newAppointmentData: {
+            doctor: newDoctor?.name,
+
+            doctorId: newDoctor?.id,
+          },
+          id: editId,
         },
-      }
-    );
+        {
+          onSuccess: (data) => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
+    else
+      createAppointmentFn(
+        {
+          diagnosis: myObject?.report?.diagnosis,
+          status: "unconfirmed",
+          startDate: getToday(),
+          name: myObject?.name,
+          mobile: myObject?.mobile,
+          doctor: newDoctor?.name,
+          image: myObject?.image,
+          gender: myObject?.gender,
+          email: myObject?.email,
+          isPaid: false,
+          numOfCons: 0,
+          patientId: myObject?.id,
+          doctorId: newDoctor?.id,
+          report: myReport,
+        },
+        {
+          onSuccess: (data) => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
   }
 
   function onError(errors) {
@@ -102,7 +119,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
       onSubmit={handleSubmit(onSubmit, onError)}
       type={onCloseModal ? "modal" : "regular"}
     >
-      <FormRow label="patient name" error={errors?.patients?.name?.message}>
+      {/* <FormRow label="patient name" error={errors?.patients?.name?.message}>
         <Input
           type="text"
           id="patients.name"
@@ -111,12 +128,12 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
             required: "This field is required",
           })}
         />
-      </FormRow>
-      <FormRow label="Select Doctor">
+      </FormRow> */}
+      <FormRow label="Select Doctor" error={errors?.doctors?.name?.message}>
         <Controller
           name="doctors.name" // The name should match the key in your data object
           control={control}
-          defaultValue="Dr. Johnson" // Set the default value as needed
+          defaultValue="Dr.Ahmed El-Masry" // Set the default value as needed
           render={({ field }) => {
             return (
               <Select
@@ -128,7 +145,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
           }}
         />
       </FormRow>
-      <FormRow label="Mobile" error={errors?.patients?.mobile?.message}>
+      {/* <FormRow label="Mobile" error={errors?.patients?.mobile?.message}>
         <Input
           type="text"
           id="patients.mobile"
@@ -137,7 +154,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
             required: "This field is required",
           })}
         />
-      </FormRow>
+      </FormRow> */}
 
       {/* <FormRow label="Doctor" error={errors?.doctors?.name?.message}>
         <Input
@@ -150,7 +167,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
         />
       </FormRow> */}
 
-      <FormRow label="Start date" error={errors?.startDate?.message}>
+      {/* <FormRow label="Start date" error={errors?.startDate?.message}>
         <Input
           type="date"
           id="startDate"
@@ -159,9 +176,9 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
             required: "This field is required",
           })}
         />
-      </FormRow>
+      </FormRow> */}
 
-      <FormRow label="Condition" error={errors?.condition?.message}>
+      {/* <FormRow label="Condition" error={errors?.condition?.message}>
         <Input
           type="text"
           id="condition"
@@ -170,8 +187,8 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
             required: "This field is required",
           })}
         />
-      </FormRow>
-      <FormRow label="is paid" error={errors?.isPaid?.message}>
+      </FormRow> */}
+      {/* <FormRow label="is paid" error={errors?.isPaid?.message}>
         <Input
           type="text"
           id="isPaid"
@@ -180,9 +197,9 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
             required: "This field is required",
           })}
         />
-      </FormRow>
+      </FormRow> */}
 
-      <FormRow label="Status" error={errors?.status?.message}>
+      {/* <FormRow label="Status" error={errors?.status?.message}>
         <Input
           type="text"
           id="status"
@@ -195,17 +212,17 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
             },
           })}
         />
-      </FormRow>
+      </FormRow> */}
 
-      <FormRow label="Image">
+      {/* <FormRow label="Image" error={errors?.patients?.image?.message}>
         <FileInput
-          id="image"
-          accept="image/*"
-          {...register("image", {
+          id="patients.image"
+          accept="patients.image/*"
+          {...register("patients.image", {
             required: isEditSession ? false : "This field is required",
           })}
         />
-      </FormRow>
+      </FormRow> */}
 
       <FormRow>
         {/* type is an HTML attribute! */}

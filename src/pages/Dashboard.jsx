@@ -26,7 +26,7 @@ function Dashboard() {
       <Row type="horizontal">
         <Heading as="h1">Dashboard</Heading>
 
-        <DashboardFilter />
+        {userRole !== "patient" && <DashboardFilter />}
       </Row>
 
       {userRole === "patient" ? (

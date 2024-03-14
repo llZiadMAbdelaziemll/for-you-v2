@@ -111,6 +111,12 @@ function MainNav() {
             <span>Operations</span>
           </StyledNavLink>
         </li>
+        <li>
+          <StyledNavLink to="/records">
+            <AiFillProfile />
+            <span>Records</span>
+          </StyledNavLink>
+        </li>
 
         <li>
           <StyledNavLink to="/advanced">
@@ -125,43 +131,25 @@ function MainNav() {
           </StyledNavLink>
         </li>
 
-        <li>
+        {/* <li>
           <StyledNavLink>
             <FaBed />
             <span>Room Allotment</span>
           </StyledNavLink>
-        </li>
+        </li> */}
 
-        <li>
-          <StyledNavLink>
-            <AiFillProfile />
-            <span>Records</span>
-          </StyledNavLink>
-        </li>
-        <li>
+        {/* <li>
           <StyledNavLink>
             <FaShuttleVan />
             <span>Ambulance</span>
           </StyledNavLink>
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           <StyledNavLink>
             <MdLocalPharmacy />
             <span>Pharmacy</span>
           </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink>
-            <MdGroupWork />
-            <span>Departments</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink>
-            <MdShoppingBag />
-            <span>Inventory</span>
-          </StyledNavLink>
-        </li>
+        </li> */}
       </NavList>
     </nav>
   );

@@ -11,14 +11,17 @@ import { useEditPatient } from "./useEditPatient";
 import { useReports } from "../reports/useReports";
 import { useReportsId } from "../reports/useReportsId";
 import { useReport } from "../reports/useReport";
+import { useUpdateUser } from "../authentication/useUpdateUser";
+import { useState } from "react";
 
 function CreatePatientForm({ patientToEdit = {}, onCloseModal }) {
   const { isCreating, createPatient } = useCreatePatient();
   const { isEditing, editPatient } = useEditPatient();
   const { reportsIds, isLoading } = useReportsId();
+  const { updateUser, isUpdating } = useUpdateUser();
   const newReportId = reportsIds?.at(-1)?.id;
 
-  const { report } = useReport(newReportId);
+  const report = useReport(newReportId)?.report;
   // const newReport = report(newReportId);
   console.log(report);
   const isWorking = isCreating || isEditing;
@@ -35,7 +38,7 @@ function CreatePatientForm({ patientToEdit = {}, onCloseModal }) {
     console.log(data);
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
-    if (isEditSession)
+    if (isEditSession) {
       editPatient(
         { newPatientData: { ...data, image }, id: editId },
         {
@@ -45,7 +48,8 @@ function CreatePatientForm({ patientToEdit = {}, onCloseModal }) {
           },
         }
       );
-    else
+      // updateUser({ avatar: image, name: data?.name });
+    } else {
       createPatient(
         { ...data, image: image, reportId: newReportId, report: report },
         {
@@ -55,6 +59,8 @@ function CreatePatientForm({ patientToEdit = {}, onCloseModal }) {
           },
         }
       );
+      updateUser({ avatar: image, name: data?.name });
+    }
   }
 
   function onError(errors) {

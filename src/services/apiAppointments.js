@@ -7,7 +7,7 @@ export async function getAppointments({ filter, sortBy, page }) {
   let query = supabase
     .from("appointments")
     .select(
-      "id, created_at, condition, startDate, endDate,isPaid,status,numOfCons , doctors(id,name, email, price), patients(id,image, name, gender, mobile,reports(*))",
+      "id, created_at,startDate, endDate,isPaid,status,numOfCons , doctors(id,name, email, price), patients(id,image, name, gender, mobile,reports(*))",
       { count: "exact" }
     );
 
@@ -56,7 +56,7 @@ export async function getDoctorAppointments(userName) {
   const { data, error } = await supabase
     .from("appointments")
     .select(
-      "id, created_at, condition, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile)"
+      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))"
     )
     .eq("doctor:name", userName);
 
@@ -72,7 +72,7 @@ export async function getPatientAppointments(userName) {
   const { data, error } = await supabase
     .from("appointments")
     .select(
-      "id, created_at, condition, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile)"
+      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))"
     )
     .eq("name:name", userName);
 
@@ -118,7 +118,7 @@ export async function getDoctorAppointmentsAfterDate(userName, date) {
   const { data, error } = await supabase
     .from("appointments")
     .select(
-      "id, created_at, condition, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile)"
+      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))"
     )
     .eq("doctor:name", userName)
     .gte("created_at", date)
@@ -222,11 +222,12 @@ export async function updateAppointment(id, obj) {
     .eq("id", id)
     .select()
     .single();
-
+  console.log(data);
   if (error) {
     console.error(error);
     throw new Error("appointment could not be updated");
   }
+
   return data;
 }
 

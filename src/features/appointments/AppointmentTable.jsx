@@ -19,7 +19,7 @@ function AppointmentTable() {
     useDoctorAppointments(user?.user_metadata?.name);
   const { isLoading: patientAppointmentsIsLoading, patientAppointments } =
     usePatientAppointments(user?.user_metadata?.name);
-  console.log(doctorAppointments);
+  console.log(count);
 
   const [searchParams] = useSearchParams();
 

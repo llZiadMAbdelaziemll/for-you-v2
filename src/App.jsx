@@ -13,6 +13,8 @@ import Checkin from "./pages/Checkin";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
+import Profile from "./pages/Profile";
+import Records from "./pages/Records";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
@@ -44,6 +46,7 @@ function App() {
             <Route element={<AppLayout />}>
               <Route index element={<Navigate replace to="login" />} />
               <Route path="dashboard" element={<Dashboard />} />
+              <Route path="profile" element={<Profile />} />
 
               <Route path="doctors" element={<Doctors />} />
               <Route path="patients" element={<Patients />} />
@@ -54,6 +57,7 @@ function App() {
               />
               <Route path="checkin/:appointmentId" element={<Checkin />} />
               <Route path="operations" element={<Operations />} />
+              <Route path="records" element={<Records />} />
               <Route path="advanced" element={<Advanced />} />
 
               <Route path="users" element={<Users />} />

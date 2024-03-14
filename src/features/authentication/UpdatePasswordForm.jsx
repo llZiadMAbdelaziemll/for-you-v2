@@ -17,7 +17,7 @@ function UpdatePasswordForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form type="account" onSubmit={handleSubmit(onSubmit)}>
       <FormRow
         label="New password (min 8 chars)"
         error={errors?.password?.message}

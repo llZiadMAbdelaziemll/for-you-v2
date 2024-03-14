@@ -16,6 +16,13 @@ const Row = styled.div`
       flex-direction: column;
       gap: 1.6rem;
     `}
+
+    ${(props) =>
+    props.type === "horizontal-top" &&
+    css`
+      justify-content: space-between;
+      align-items: start !important;
+    `}
 `;
 
 Row.defaultProps = {

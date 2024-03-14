@@ -6,12 +6,22 @@ import {
   HiUserGroup,
   HiFaceSmile,
 } from "react-icons/hi2";
-import { FaUserInjured } from "react-icons/fa";
+import {
+  FaUserInjured,
+  FaTemperatureHigh,
+  FaDiagnoses,
+  FaWeight,
+} from "react-icons/fa";
+import { BsFillHeartPulseFill } from "react-icons/bs";
+import { MdBloodtype } from "react-icons/md";
+import { BsEmojiDizzy } from "react-icons/bs";
 
 import Stat from "./Stat";
 import { formatCurrency } from "../../utils/helpers";
+import Row from "../../ui/Row";
 import styled from "styled-components";
 import { useUser } from "../authentication/useUser";
+import Capsule from "./Capsule";
 
 const StyledStats = styled.div`
   /* Box */
@@ -32,33 +42,33 @@ function PatientStats({ report = {} }) {
       <Stat
         title="Heart Rate"
         color="red"
-        icon={<HiFaceSmile />}
+        icon={<MdBloodtype />}
         value={report?.heartRate}
       />
       <Stat
         title="Blood Pressure"
         color="red"
-        icon={<HiFaceSmile />}
-        value={`${report?.systolicPressure}/${report?.diastolicPressure} mmHg`}
+        icon={<BsFillHeartPulseFill />}
+        value={`${report?.systolicPressure}/${report?.diastolicPressure}`}
       />
-      <Stat
-        title="Diagnosis"
-        color="blue"
-        icon={<HiFaceSmile />}
-        value={report?.diagnosis}
-      />
+
       <Stat
         title="Temperature"
         color="red"
-        icon={<HiFaceSmile />}
+        icon={<FaTemperatureHigh />}
         value={report?.temperature}
       />
       <Stat
         title="Weight"
         color="red"
-        icon={<HiFaceSmile />}
+        icon={<FaWeight />}
         value={report?.weight}
       />
+
+      <Capsule title="Medications" value={report?.medications} />
+      <Capsule title="Symptoms" value={report?.symptoms} />
+      <Capsule title="Notes" value={report?.notes} />
+      <Capsule title="Diagnosis" value={report?.diagnosis} />
     </>
   );
 }

@@ -39,7 +39,7 @@ function UpdateUserRoleForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form type="account" onSubmit={handleSubmit}>
       <FormRow label="Role">
         <Input
           inputType="regular"
@@ -48,7 +48,7 @@ function UpdateUserRoleForm() {
           placeholder={role}
           onChange={(e) => setRole(e.target.value)}
           id="role"
-          disabled={isUpdating}
+          disabled={isUpdating || currentRole !== "admin"}
         />
       </FormRow>
 
