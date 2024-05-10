@@ -9,11 +9,11 @@ function BookingTableOperations() {
         filterField="appointmentsFilters"
         options={[
           { value: "all", label: "All" },
-          { value: "male", label: "Male" },
-          { value: "female", label: "Female" },
-          { value: "severe", label: "Severe" },
-          { value: "mild", label: "Mild" },
-          { value: "moderate", label: "Moderate" },
+          // { value: "male", label: "Male" },
+          // { value: "female", label: "Female" },
+          // { value: "severe", label: "Severe" },
+          // { value: "mild", label: "Mild" },
+          // { value: "moderate", label: "Moderate" },
           { value: "checked-out", label: "Checked out" },
           { value: "checked-in", label: "Checked in" },
           { value: "unconfirmed", label: "Unconfirmed" },

@@ -52,36 +52,75 @@ export async function getAppointment(id) {
   console.log(data);
   return data;
 }
-export async function getDoctorAppointments(userName) {
-  const { data, error } = await supabase
+export async function getDoctorAppointments(
+  userName,
+  { filter, sortBy, page }
+) {
+  let query = supabase
     .from("appointments")
     .select(
-      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))"
+      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))",
+      { count: "exact" }
     )
     .eq("doctor:name", userName);
 
+  // FILTER
+  if (filter) query = query[filter.method || "eq"](filter.field, filter.value);
+
+  // SORT
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
   if (error) {
     console.error(error);
     throw new Error("appointment not found");
   }
   console.log(data);
-  return data;
+  return { data, count };
 }
 
-export async function getPatientAppointments(userName) {
-  const { data, error } = await supabase
+export async function getPatientAppointments(
+  userName,
+  { filter, sortBy, page }
+) {
+  let query = supabase
     .from("appointments")
     .select(
-      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))"
+      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))",
+      { count: "exact" }
     )
     .eq("name:name", userName);
+  // FILTER
+  if (filter) query = query[filter.method || "eq"](filter.field, filter.value);
 
+  // SORT
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
   if (error) {
     console.error(error);
     throw new Error("appointment not found");
   }
   console.log(data);
-  return data;
+  return { data, count };
 }
 
 // export async function getReportAppointments(userName) {
@@ -146,10 +185,10 @@ export async function getStaysAfterDate(date) {
   return data;
 }
 
-export async function getStaysTodayActivity() {
+export async function getTodayActivity() {
   const { data, error } = await supabase
     .from("appointments")
-    .select("*, patients(name , image)")
+    .select("*, doctors(name),patients(name , image)")
     .or(
       `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
     )
@@ -161,51 +200,6 @@ export async function getStaysTodayActivity() {
   }
   return data;
 }
-
-// export async function createEditAppointment(newAppointment, id) {
-//   const hasImagePath = newAppointment.image?.startsWith?.(supabaseUrl);
-
-//   const imageName = `${
-//     newAppointment.image?.name
-//   }?t=${Math.random()}`.replaceAll("/", "");
-//   const imagePath = hasImagePath
-//     ? newAppointment.image
-//     : `${supabaseUrl}/storage/v1/object/public/patient-images/${imageName}`;
-
-//   // 1. Create/edit appointment
-//   let query = supabase.from("appointments");
-
-//   // A) CREATE
-//   if (!id) query = query.insert([{ ...newAppointment, image: imagePath }]);
-
-//   // B) EDIT
-//   if (id)
-//     query = query.update({ ...newAppointment, image: imagePath }).eq("id", id);
-
-//   const { data, error } = await query.select().single();
-//   if (error) {
-//     console.error(error);
-//     throw new Error("appointment could not be created");
-//   }
-
-//   // 2. Upload image
-//   if (hasImagePath) return data;
-
-//   const { error: storageError } = await supabase.storage
-//     .from("patient-images")
-//     .upload(imageName, newAppointment.image);
-
-//   // 3. Delete the doctor IF there was an error uplaoding image
-//   if (storageError) {
-//     await supabase.from("appointments").delete().eq("id", data.id);
-//     console.error(storageError);
-//     throw new Error(
-//       "appointment image could not be uploaded and the appointment was not created"
-//     );
-//   }
-
-//   return data;
-// }
 
 export async function createAppointment(newAppointment) {
   const { data, error } = await supabase

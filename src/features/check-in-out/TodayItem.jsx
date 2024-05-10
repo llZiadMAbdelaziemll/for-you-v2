@@ -20,23 +20,27 @@ const StyledTodayItem = styled.li`
     border-top: 1px solid var(--color-grey-100);
   }
 `;
-
+const Img = styled.img`
+  width: 100%;
+`;
 const Patient = styled.div`
   font-weight: 500;
 `;
 
 function TodayItem({ activity }) {
   const { id, status, patients, numOfCons } = activity;
-
+  console.log(patients);
   return (
     <StyledTodayItem>
-      {status === "unconfirmed" && <Tag type="green">Arriving</Tag>}
+      {status === "unconfirmed" && <Tag type="green">Coming</Tag>}
       {status === "checked-in" && <Tag type="blue">Departing</Tag>}
 
       {/* <Flag src={patients.countryFlag} alt={`Flag of ${patients.country}`} /> */}
-      <Patient>{patients.name}</Patient>
-      <div>{numOfCons} days</div>
+      <Img src={`${patients.image}`} alt=" " />
 
+      <Patient>{patients.name}</Patient>
+      {/* <div>{numOfCons} days</div> */}
+      <div></div>
       {status === "unconfirmed" && (
         <Button
           size="small"

@@ -10,7 +10,9 @@ export function useUpdateAppointment() {
       updateAppointment(id, newAppointmentData),
     onSuccess: () => {
       toast.success("Appointment successfully edited");
-      queryClient.invalidateQueries({ queryKey: ["appointments"] });
+      queryClient.invalidateQueries({
+        queryKey: ["patient-appointments"],
+      });
     },
     onError: (err) => toast.error(err.message),
   });

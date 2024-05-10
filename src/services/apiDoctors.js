@@ -1,14 +1,23 @@
+import { PAGE_SIZE } from "../utils/constants";
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function getDoctors() {
-  const { data, error } = await supabase.from("doctors").select("*");
+export async function getDoctors({ page }) {
+  let query = supabase.from("doctors").select("*", { count: "exact" });
 
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
+  console.log(data);
   if (error) {
     console.error(error);
     throw new Error("doctors could not be loaded");
   }
 
-  return data;
+  return { data, count };
 }
 
 export async function createEditDoctor(newDoctor, id) {

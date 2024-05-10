@@ -6,25 +6,24 @@ import {
   HiUserGroup,
   HiFaceSmile,
 } from "react-icons/hi2";
-import { FaUserInjured } from "react-icons/fa";
+import { FaUserInjured, FaHackerNewsSquare } from "react-icons/fa";
 
 import Stat from "./Stat";
 import { formatCurrency } from "../../utils/helpers";
 import styled from "styled-components";
 import { useUser } from "../authentication/useUser";
 
-const StyledStats = styled.div`
-  /* Box */
-
-  padding: 1.6rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 2rem;
-  row-gap: 2rem;
-`;
+// const StyledStats = styled.div`
+//   /* Box */
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: space-between;
+//   gap: 2rem;
+// `;
 
 function Stats({
+  appointmentsCount,
   appointments,
   confirmedStays,
   numDays,
@@ -36,7 +35,7 @@ function Stats({
   const { user } = useUser();
   let userRole = user.user_metadata.role;
   // 1.
-  const numAppointments = appointments?.length;
+  // const numAppointments = appointments?.length;
 
   // 2.
   const sales = appointments?.reduce((acc, cur) => acc + cur.doctors?.price, 0);
@@ -56,14 +55,14 @@ function Stats({
       <Stat
         title="Today Patients"
         color="blue"
-        icon={<HiFaceSmile />}
+        icon={<HiOutlineCalendarDays />}
         value={todayPatients}
       />
       <Stat
         title="Appointments"
         color="blue"
-        icon={<HiFaceSmile />}
-        value={numAppointments}
+        icon={<FaHackerNewsSquare />}
+        value={appointmentsCount}
       />
       <Stat
         title="Doctors"

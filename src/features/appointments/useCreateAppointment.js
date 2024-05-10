@@ -9,7 +9,10 @@ export function useCreateAppointment() {
     mutationFn: createAppointment,
     onSuccess: () => {
       toast.success("New appointment successfully created");
-      queryClient.invalidateQueries({ queryKey: ["appointments"] });
+
+      queryClient.invalidateQueries({
+        queryKey: ["patient-appointments"],
+      });
     },
     onError: (err) => toast.error(err.message),
   });

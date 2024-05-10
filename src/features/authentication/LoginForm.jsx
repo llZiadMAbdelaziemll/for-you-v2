@@ -6,12 +6,17 @@ import FormRowVertical from "../../ui/FormRowVertical";
 import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const RegitserShapeContainer = styled.div`
   width: 410px;
   margin: auto;
   margin-top: 30px;
+  ${(props) =>
+    props.screenWidth <= 480 &&
+    css`
+      max-width: 100%;
+    `}
 `;
 
 const RegitserShape = styled.div`
@@ -19,7 +24,7 @@ const RegitserShape = styled.div`
   padding: 15px;
   background-color: var(--color-grey-50);
   text-align: center;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.6);
 `;
 
 const RegShapeUnderline = styled.div`
@@ -64,7 +69,7 @@ const Link = styled.a`
   }
 `;
 
-function LoginForm() {
+function LoginForm({ screenWidth }) {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -122,7 +127,7 @@ function LoginForm() {
         </Button>
       </FormRowVertical>
 
-      <RegitserShapeContainer>
+      <RegitserShapeContainer screenWidth={screenWidth}>
         <RegitserShape>Log in</RegitserShape>
         <RegShapeUnderline>
           <Or>OR</Or>

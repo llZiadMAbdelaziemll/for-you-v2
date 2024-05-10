@@ -1,10 +1,18 @@
+import { PAGE_SIZE } from "../utils/constants";
 import { getToday } from "../utils/helpers";
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function getPatients() {
-  const { data, error } = await supabase
+export async function getPatients({ page }) {
+  let query = supabase
     .from("patients")
-    .select("*,reports(*)");
+    .select("*,reports(*)", { count: "exact" });
+
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error);
@@ -12,7 +20,7 @@ export async function getPatients() {
   }
   console.log(data);
 
-  return data;
+  return { data, count };
 }
 
 export async function getPatientsAfterDate(date) {
@@ -85,7 +93,7 @@ export async function createEditPatient(newPatient, id) {
     await supabase.from("patients").delete().eq("id", data.id);
     console.error(storageError);
     throw new Error(
-      "patient image could not be uploaded and the doctor was not created"
+      "patient image could not be uploaded and the patient was not created"
     );
   }
 

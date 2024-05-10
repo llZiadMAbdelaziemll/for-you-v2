@@ -9,6 +9,8 @@ import { useSearchParams } from "react-router-dom";
 import Empty from "../../ui/Empty";
 import { useUser } from "../authentication/useUser";
 import { useDoctorAppointments } from "../appointments/useDoctorAppointments";
+import Pagination from "../../ui/Pagination";
+import { useAllPatients } from "./useAllPatients";
 
 const TableTopic = styled.div`
   font-size: 17px;
@@ -19,18 +21,22 @@ const TableTopic = styled.div`
 
 function PatientTable() {
   const { user } = useUser();
-  const userRole = user.user_metadata.role;
-  const userName = user.user_metadata.name;
-  const { isLoading, patients } = usePatients();
+  const userRole = user?.user_metadata?.role;
+  const userName = user?.user_metadata?.name;
+  const { isLoading, patients, count } = usePatients();
+  const { isLoading: isLoading2, patients: allPatients } = useAllPatients();
+
   const [searchParams] = useSearchParams();
   const { doctorAppointments } = useDoctorAppointments(userName);
 
   // calculate doctor patients
-  const doctorPatients = patients?.filter((patient) =>
+  const doctorPatients = allPatients?.filter((patient) =>
     doctorAppointments?.some(
       (appointment) => appointment?.patients?.name === patient?.name
     )
   );
+
+  console.log(doctorPatients);
 
   if (isLoading) return <Spinner />;
   if (!patients.length) return <Empty resourceName="patients" />;
@@ -63,6 +69,8 @@ function PatientTable() {
     );
   }
   const finalPatients = userRole === "admin" ? sortedPatients : doctorPatients;
+  const finalPatientsCount =
+    userRole === "admin" ? count : doctorPatients?.length;
   return (
     <Menus>
       <Table columns="60px 130px  90px 70px 170px  130px 110px 150px 10px">
@@ -85,6 +93,9 @@ function PatientTable() {
             <PatientRow patient={patient} key={patient.id} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={finalPatientsCount} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

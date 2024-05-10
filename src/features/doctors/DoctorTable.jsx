@@ -8,6 +8,7 @@ import DoctorRow from "./DoctorRow";
 import { useDoctors } from "./useDoctors";
 
 import Empty from "../../ui/Empty";
+import Pagination from "../../ui/Pagination";
 const TableTopic = styled.div`
   font-size: 17px;
   letter-spacing: 0.0125em;
@@ -16,7 +17,7 @@ const TableTopic = styled.div`
 `;
 
 function DoctorTable() {
-  const { isLoading, doctors } = useDoctors();
+  const { isLoading, doctors, count } = useDoctors();
   const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
@@ -83,6 +84,9 @@ function DoctorTable() {
           data={sortedDoctors}
           render={(doctor) => <DoctorRow doctor={doctor} key={doctor.id} />}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

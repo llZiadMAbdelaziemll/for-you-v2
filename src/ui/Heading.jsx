@@ -1,10 +1,5 @@
 import styled, { css } from "styled-components";
 
-// const test = css`
-//   text-align: center;
-//   ${10 > 5 && "background-color: yellow"}
-// `;
-
 const Heading = styled.h1`
   ${(props) =>
     props.as === "h1" &&
@@ -28,7 +23,7 @@ const Heading = styled.h1`
     `}
     
   line-height: 1.4;
-  padding-left: 13rem;
+  /* padding-left: 13rem; */
 `;
 
 export default Heading;

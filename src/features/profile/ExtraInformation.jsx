@@ -2,7 +2,6 @@ import React from "react";
 import Table from "../../ui/Table";
 import ProfileRow from "./ProfileRow";
 import { useUser } from "../authentication/useUser";
-import { useDoctors } from "../doctors/useDoctors";
 import styled from "styled-components";
 import { format } from "date-fns";
 import { formatCurrency } from "../../utils/helpers";
@@ -31,11 +30,9 @@ const Topic = styled.h4`
 const Value = styled.p``;
 const ExtraInformation = ({ myObject }) => {
   const { user } = useUser();
-  const userRole = user?.user_metadata?.role;
   const userName = user?.user_metadata?.name;
   const { isLoading: doctorAppointmentsIsLoading, doctorAppointments } =
     useDoctorAppointments(userName);
-  console.log(myObject);
   return (
     <StyledExtraInformation>
       <InformationRow>

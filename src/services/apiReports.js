@@ -5,7 +5,7 @@ export async function getReports() {
 
   if (error) {
     console.error(error);
-    throw new Error("doctors could not be loaded");
+    throw new Error("reports could not be loaded");
   }
 
   return data;
@@ -53,7 +53,7 @@ export async function getReportsIds() {
 
   if (error) {
     console.error(error);
-    throw new Error("doctors could not be loaded");
+    throw new Error("reports could not be loaded");
   }
 
   return reportsIds;

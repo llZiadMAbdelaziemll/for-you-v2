@@ -6,6 +6,7 @@ import Row from "../../ui/Row";
 import { useTodayActivity } from "./useTodayActivity";
 import Spinner from "../../ui/Spinner";
 import TodayItem from "./TodayItem";
+import { useUser } from "../authentication/useUser";
 
 const StyledToday = styled.div`
   /* Box */
@@ -41,8 +42,16 @@ const NoActivity = styled.p`
 `;
 
 function TodayActivity() {
-  const { activities, isLoading } = useTodayActivity();
+  const { user } = useUser();
 
+  const { activities, isLoading } = useTodayActivity();
+  const userRole = user?.user_metadata?.role;
+  const userName = user?.user_metadata?.name;
+  const doctorActivities = activities?.filter(
+    (act) => act?.doctors?.name === userName
+  );
+
+  const finalActivity = userRole === "admin" ? activities : doctorActivities;
   return (
     <StyledToday>
       <Row type="horizontal">
@@ -50,9 +59,9 @@ function TodayActivity() {
       </Row>
 
       {!isLoading ? (
-        activities?.length > 0 ? (
+        finalActivity?.length > 0 ? (
           <TodayList>
-            {activities.map((activity) => (
+            {finalActivity.map((activity) => (
               <TodayItem activity={activity} key={activity.id} />
             ))}
           </TodayList>

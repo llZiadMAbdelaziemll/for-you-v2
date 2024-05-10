@@ -9,7 +9,7 @@ import FormRow from "../../ui/FormRow";
 import { useCreateAppointment } from "./useCreateAppointment";
 import { useUpdateAppointment } from "./useUpdateAppointment";
 import { useUser } from "../authentication/useUser";
-import { useDoctors } from "../doctors/useDoctors";
+import { useAllDoctors } from "../doctors/useAllDoctors";
 import { usePatients } from "../patients/usePatients";
 import Select from "../../ui/Select";
 import { useReportsId } from "../reports/useReportsId";
@@ -21,7 +21,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
   const userName = user?.user_metadata?.name;
   const { isCreating, createAppointmentFn } = useCreateAppointment();
   const { isEditing, editAppointment } = useUpdateAppointment();
-  const { doctors } = useDoctors();
+  const { doctors } = useAllDoctors();
   const { patients } = usePatients();
   const { reportsIds, isLoading } = useReportsId();
 
@@ -51,20 +51,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
         return doctor?.name == data?.doctors?.name;
       })
       ?.at(0);
-    // const image = typeof data.image === "string" ? data.image : data.image[0];
-    console.log(newDoctor);
-    const {
-      // condition,
-      status,
-      startDate,
-      // doctors: { name: doctorName },
-      // patients: {
-      //   name: patientName,
-      //   mobile: patientMobile,
-      //   image: patientImage,
-      //   gender: patientGender,
-      // },
-    } = data;
+    const { status, startDate } = data;
 
     if (isEditSession)
       editAppointment(
@@ -234,7 +221,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
           Cancel
         </Button>
         <Button disabled={isWorking}>
-          {isEditSession ? "Edit doctor" : "Create new doctor"}
+          {isEditSession ? "Edit appointment" : "Create new appointment"}
         </Button>
       </FormRow>
     </Form>

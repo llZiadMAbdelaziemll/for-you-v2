@@ -1,19 +1,30 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import styled from "styled-components";
+import { useScreenWidth } from "../hooks/useScreenWidth";
+import styled, { css } from "styled-components";
+import { useState } from "react";
 
 const StyledAppLayout = styled.div`
   display: grid;
   grid-template-columns: 26rem 1fr;
+
   grid-template-rows: auto 1fr;
   height: 100vh;
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+
+    overflow-y: hidden;
+  }
 `;
 
 const Main = styled.main`
   background-color: var(--color-grey-50);
   padding: 4rem 2.5rem 6.4rem;
-  // overflow: scroll;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Container = styled.div`
@@ -22,13 +33,18 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
+  @media (max-width: 480px) {
+    max-width: 45rem;
+  }
 `;
 
 function AppLayout() {
+  const width = useScreenWidth();
+
   return (
     <StyledAppLayout>
       <Header />
-      <Sidebar />
+      <Sidebar type={width <= 480 ? "mini" : "large"} />
       <Main>
         <Container>
           <Outlet />

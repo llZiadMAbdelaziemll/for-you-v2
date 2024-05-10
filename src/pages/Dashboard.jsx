@@ -9,17 +9,6 @@ import PatientDashboardLayout from "../features/dashboard/PatientDashBoardLayout
 function Dashboard() {
   const { user } = useUser();
   const userRole = user?.user_metadata?.role;
-  //   return (
-  //     <>
-  //       <Row type="horizontal">
-  //         <Heading as="h1">Dashboard</Heading>
-
-  //         <DashboardFilter />
-  //       </Row>
-
-  //       <DashboardLayout />
-  //     </>
-  //   );
 
   return (
     <>

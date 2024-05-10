@@ -4,17 +4,32 @@ import ButtonIcon from "./ButtonIcon";
 import { HiOutlineUser } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import DarkModeToggle from "./DarkModeToggle";
+import { useScreenWidth } from "../hooks/useScreenWidth";
+import { MdTableRows } from "react-icons/md";
+import { useMini } from "../context/MiniContext";
 
 const StyledHeaderMenu = styled.ul`
   display: flex;
   gap: 0.4rem;
+  & button.rotate {
+    transform: rotate(90deg);
+  }
 `;
 
 function HeaderMenu() {
   const navigate = useNavigate();
+  const width = useScreenWidth();
+  const { mini, toggleMini } = useMini();
 
   return (
     <StyledHeaderMenu>
+      {width <= 480 && (
+        <li onClick={toggleMini}>
+          <ButtonIcon className={mini ? "rotate" : ""}>
+            <MdTableRows className="tabIcon" />
+          </ButtonIcon>
+        </li>
+      )}
       <li>
         <ButtonIcon onClick={() => navigate("/account")}>
           <HiOutlineUser />

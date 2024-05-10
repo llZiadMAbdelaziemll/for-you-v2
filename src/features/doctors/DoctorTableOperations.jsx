@@ -5,15 +5,14 @@ import SortBy from "../../ui/SortBy";
 function DoctorTableOperations() {
   return (
     <TableOperations>
-      <Filter
+      {/* <Filter
         filterField="department"
         options={[
           { value: "all", label: "All" },
-          { value: "dentist", label: "Dentist" },
           { value: "cardiology", label: "Cardiology" },
           { value: "neurology", label: "Neurology" },
         ]}
-      />
+      /> */}
 
       <SortBy
         options={[

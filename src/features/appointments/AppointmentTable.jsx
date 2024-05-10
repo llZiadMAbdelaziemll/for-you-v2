@@ -15,10 +15,17 @@ function AppointmentTable() {
   const { appointments, isLoading, count } = useAppointments();
   const { user } = useUser();
   console.log(user);
-  const { isLoading: doctorAppointmentsIsLoading, doctorAppointments } =
-    useDoctorAppointments(user?.user_metadata?.name);
-  const { isLoading: patientAppointmentsIsLoading, patientAppointments } =
-    usePatientAppointments(user?.user_metadata?.name);
+  const {
+    isLoading: doctorAppointmentsIsLoading,
+    doctorAppointments,
+    count: doctorAppointmentsCount,
+  } = useDoctorAppointments(user?.user_metadata?.name);
+
+  const {
+    isLoading: patientAppointmentsIsLoading,
+    patientAppointments,
+    count: patientAppointmentsCount,
+  } = usePatientAppointments(user?.user_metadata?.name);
   console.log(count);
 
   const [searchParams] = useSearchParams();
@@ -104,9 +111,16 @@ function AppointmentTable() {
       : user?.user_metadata?.role === "patient"
       ? patientAppointments
       : sortedAppointments;
+
+  const dataCount =
+    user?.user_metadata?.role === "doctor"
+      ? doctorAppointmentsCount
+      : user?.user_metadata?.role === "patient"
+      ? patientAppointmentsCount
+      : count;
   return (
     <Menus>
-      <Table columns="60px 120px 120px 120px 120px 80px 100px 70px 90px 10px">
+      <Table columns="60px 120px 120px 120px 120px 80px 90px 100px 70px 10px">
         <Table.Header>
           <div>Image</div>
           <div>Name</div>
@@ -116,9 +130,9 @@ function AppointmentTable() {
           <div>Start date</div>
           <div>duration</div>
           <div>Condition</div>
-          {/* <div>Email</div> */}
-          <div>is paid</div>
           <div>Status</div>
+
+          <div>is paid</div>
           <div></div>
         </Table.Header>
         {/* `${
@@ -134,7 +148,7 @@ function AppointmentTable() {
         />
 
         <Table.Footer>
-          <Pagination count={count} />
+          <Pagination count={dataCount} />
         </Table.Footer>
       </Table>
     </Menus>

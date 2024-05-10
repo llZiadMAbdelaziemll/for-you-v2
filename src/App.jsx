@@ -24,6 +24,7 @@ import Operations from "./pages/Operations";
 import Signup from "./pages/Signup";
 
 import Advanced from "./pages/Advanced";
+import { MiniProvider } from "./context/MiniContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -37,62 +38,64 @@ function App() {
   // getCurrentUserRole();
   return (
     <DarkModeProvider>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
+      <MiniProvider>
+        <QueryClientProvider client={queryClient}>
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
 
-        <GlobalStyles />
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route index element={<Navigate replace to="login" />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="profile" element={<Profile />} />
+          <GlobalStyles />
+          <BrowserRouter>
+            <Routes>
+              <Route element={<AppLayout />}>
+                <Route index element={<Navigate replace to="login" />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="profile" element={<Profile />} />
 
-              <Route path="doctors" element={<Doctors />} />
-              <Route path="patients" element={<Patients />} />
-              <Route path="appointments" element={<Appointments />} />
-              <Route
-                path="appointments/:appointmentId"
-                element={<Appointment />}
-              />
-              <Route path="checkin/:appointmentId" element={<Checkin />} />
-              <Route path="operations" element={<Operations />} />
-              <Route path="records" element={<Records />} />
-              <Route path="advanced" element={<Advanced />} />
+                <Route path="doctors" element={<Doctors />} />
+                <Route path="patients" element={<Patients />} />
+                <Route path="appointments" element={<Appointments />} />
+                <Route
+                  path="appointments/:appointmentId"
+                  element={<Appointment />}
+                />
+                <Route path="checkin/:appointmentId" element={<Checkin />} />
+                <Route path="operations" element={<Operations />} />
+                <Route path="records" element={<Records />} />
+                <Route path="advanced" element={<Advanced />} />
 
-              <Route path="users" element={<Users />} />
+                <Route path="users" element={<Users />} />
 
-              <Route path="settings" element={<Settings />} />
-              <Route path="account" element={<Account />} />
-            </Route>
+                <Route path="settings" element={<Settings />} />
+                <Route path="account" element={<Account />} />
+              </Route>
 
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </BrowserRouter>
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </BrowserRouter>
 
-        <Toaster
-          position="top-center"
-          gutter={12}
-          containerStyle={{ margin: "8px" }}
-          toastOptions={{
-            success: {
-              duration: 3000,
-            },
-            error: {
-              duration: 5000,
-            },
-            style: {
-              fontSize: "16px",
-              maxWidth: "500px",
-              padding: "16px 24px",
-              backgroundColor: "var(--color-grey-0)",
-              color: "var(--color-grey-700)",
-            },
-          }}
-        />
-      </QueryClientProvider>
+          <Toaster
+            position="top-center"
+            gutter={12}
+            containerStyle={{ margin: "8px" }}
+            toastOptions={{
+              success: {
+                duration: 3000,
+              },
+              error: {
+                duration: 5000,
+              },
+              style: {
+                fontSize: "16px",
+                maxWidth: "500px",
+                padding: "16px 24px",
+                backgroundColor: "var(--color-grey-0)",
+                color: "var(--color-grey-700)",
+              },
+            }}
+          />
+        </QueryClientProvider>
+      </MiniProvider>
     </DarkModeProvider>
   );
 }

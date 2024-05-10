@@ -4,7 +4,7 @@ import { useRecentAppointments } from "./useRecentAppointments";
 import { useRecentPatients } from "./useRecentPatients";
 import Spinner from "../../ui/Spinner";
 import Stats from "./Stats";
-import { useDoctors } from "../doctors/useDoctors";
+import { useAllDoctors } from "../doctors/useAllDoctors";
 import { usePatients } from "../patients/usePatients";
 import SalesChart from "./SalesChart";
 import PatientSurvayChart from "./PatientSurvayChart";
@@ -14,40 +14,58 @@ import TodayActivity from "../check-in-out/TodayActivity";
 import { useUser } from "../authentication/useUser";
 import { useRecentDoctorAppointments } from "./useRecentDoctorAppointments";
 import { useDoctorAppointments } from "../appointments/useDoctorAppointments";
+import { useAppointments } from "../appointments/useAppointments";
 import { useTodayPatients } from "./useTodayPatients";
+import { useAllPatients } from "../patients/useAllPatients";
+import BloodGroupChart from "./BloodGroupChart";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto auto 34rem auto;
   gap: 2.4rem;
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto 34rem auto;
+  }
 `;
 
 function DashboardLayout() {
   const { appointments: allAppointments, isLoading: isLoading1 } =
     useRecentAppointments();
+  const { count: appointmentsCount } = useAppointments();
   const { user } = useUser();
   const userRole = user?.user_metadata?.role;
   const userName = user?.user_metadata?.name;
+  const { isLoading: isLoading3, doctors } = useAllDoctors();
+  const {
+    isLoading: isLoading5,
+    patients: allPatients,
+    count: patientsCount,
+  } = usePatients();
+  const { isLoading: isLoading7, patients } = useAllPatients();
+
   const {
     isLoading: recentDoctorAppointmentsIsLoading,
     appointments: recentDoctorAppointments,
   } = useRecentDoctorAppointments(userName);
+  console.log(recentDoctorAppointments);
   const { confirmedStays, isLoading: isLoading2, numDays } = useRecentStays();
-  const { doctors, isLoading: isLoading3 } = useDoctors();
+
   const { patients: recentPatients, isLoading: isLoading4 } =
     useRecentPatients();
-  const { isLoading: isLoading5, patients: allPatients } = usePatients();
+
   const { doctorAppointments } = useDoctorAppointments(userName);
 
   const { patients: todayPatients, isLoading: isLoading6 } = useTodayPatients();
+
   // calculate doctor patients
-  const doctorPatients = allPatients?.filter((patient) =>
+  const doctorPatients = patients?.filter((patient) =>
     doctorAppointments?.some(
       (appointment) => appointment?.patients?.name === patient?.name
     )
   );
-
+  console.log(doctorPatients);
   const doctorTodayPatients = todayPatients?.filter((patient) =>
     doctorPatients?.some((appointment) => appointment?.name === patient?.name)
   );
@@ -62,7 +80,10 @@ function DashboardLayout() {
 
   const finalAppointments =
     userRole === "admin" ? allAppointments : recentDoctorAppointments;
-  const finalAllPatients = userRole === "admin" ? allPatients : doctorPatients;
+  const finalAppointmentsCount =
+    userRole === "admin" ? appointmentsCount : doctorAppointments?.length;
+  const finalAllPatients =
+    userRole === "admin" ? patientsCount : doctorPatients?.length;
   const finalTodayPatients =
     userRole === "admin" ? todayPatients : doctorTodayPatients;
 
@@ -78,12 +99,13 @@ function DashboardLayout() {
   return (
     <StyledDashboardLayout>
       <Stats
+        appointmentsCount={finalAppointmentsCount}
         appointments={finalAppointments}
         confirmedStays={finalConfirmedStays}
         numDays={numDays}
-        doctorCount={doctors.length}
+        doctorCount={doctors?.length}
         recentPatientCount={recentPatients.length}
-        allPatientsCount={finalAllPatients.length}
+        allPatientsCount={finalAllPatients}
         todayPatientsCount={finalTodayPatients}
       />
       <TodayActivity />
@@ -95,9 +117,10 @@ function DashboardLayout() {
         </>
       ) : (
         <>
-          <GenderChart doctorPatients={doctorPatients} numDays={numDays} />
+          {/* <GenderChart doctorPatients={doctorPatients} numDays={numDays} /> */}
+          <BloodGroupChart doctorPatients={doctorPatients} />
           <PatientSurvayChart
-            allPatients={allPatients}
+            allPatients={patients}
             doctorPatients={doctorPatients}
             numDays={numDays}
           />

@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
+import Tag from "../../ui/Tag";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 
 // import { formatCurrency } from "../../utils/helpers";
@@ -68,12 +69,12 @@ function AppointmentRow({ appointment }) {
     },
     doctors: { name: doctorName },
   } = appointment;
-  // const statusToTagName = {
-  //   unconfirmed: "blue",
-  //   "checked-in": "green",
-  //   "checked-out": "silver",
-  // };
-  // console.log(condition, startDate, endDate, isPaid, status, numOfCons);
+  const statusToTagName = {
+    unconfirmed: "blue",
+    "checked-in": "green",
+    "checked-out": "silver",
+  };
+  console.log(userRole);
   return (
     <Table.Row>
       <img src={image} alt="notfound" />
@@ -99,20 +100,20 @@ function AppointmentRow({ appointment }) {
         </span>
       </Stacked>
 
-      {/* <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag> */}
-
       <Stacked>
         <span>{numOfCons}</span>
       </Stacked>
       <Stacked>
         <span>{diagnosis}</span>
       </Stacked>
+      <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
+
       <Stacked>
         <span>{isPaid?.toString()}</span>
       </Stacked>
-      <Stacked>
+      {/* <Stacked>
         <span>{status}</span>
-      </Stacked>
+      </Stacked> */}
 
       <Modal>
         <Menus.Menu>
@@ -147,7 +148,7 @@ function AppointmentRow({ appointment }) {
                 )}
               </>
             )}
-            {userRole !== " patient" && (
+            {userRole === "patient" && (
               <Modal.Open opens="edit">
                 <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
               </Modal.Open>

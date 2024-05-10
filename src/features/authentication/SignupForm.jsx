@@ -5,7 +5,7 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import { useSignup } from "./useSignup";
 import Description from "../../ui/Description";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 // import { RegisterAsk } from "../../ui/RegisterAsk";
 
@@ -14,6 +14,11 @@ const RegitserShapeContainer = styled.div`
   width: 410px;
   margin: auto;
   margin-top: 10px;
+  ${(props) =>
+    props.screenWidth <= 480 &&
+    css`
+      max-width: 100%;
+    `}
 `;
 
 const RegitserShape = styled.div`
@@ -21,6 +26,7 @@ const RegitserShape = styled.div`
   padding: 15px;
   background-color: var(--color-grey-50);
   text-align: center;
+  color: rgba(255, 255, 255, 0.6);
 `;
 
 const RegShapeUnderline = styled.div`
@@ -64,7 +70,7 @@ const Link = styled.a`
     color: var(--color-brand-700);
   }
 `;
-function SignupForm() {
+function SignupForm({ screenWidth }) {
   const navigate = useNavigate();
   const { signup, isLoading } = useSignup();
   const { register, formState, getValues, handleSubmit, reset } = useForm();
@@ -159,7 +165,7 @@ function SignupForm() {
           Create new user
         </Button>
       </FormRow>
-      <RegitserShapeContainer>
+      <RegitserShapeContainer screenWidth={screenWidth}>
         <RegitserShape>Register</RegitserShape>
         <RegShapeUnderline>
           <Or>OR</Or>
