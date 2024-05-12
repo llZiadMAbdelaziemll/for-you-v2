@@ -63,13 +63,16 @@ const SignupFormLayout = styled.div`
   ${(props) =>
     props.screenWidth <= 394 &&
     css`
+      padding: 2rem 4rem;
+
       gap: 1.5rem;
 
       & h4 {
         font-size: 1.53rem;
       }
       & form input {
-        width: 25.8rem;
+        width: 28.2rem;
+
         padding: 0.8rem 1.2rem;
 
         font-size: 1.3rem;
@@ -80,10 +83,10 @@ const SignupFormLayout = styled.div`
       }
 
       & form button:first-child {
-        width: 65px;
+        width: 70px;
       }
       & form button:last-child {
-        width: 18rem;
+        width: 20rem;
       }
     `}
 `;

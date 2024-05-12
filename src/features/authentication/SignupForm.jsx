@@ -18,7 +18,7 @@ const RegitserShapeContainer = styled.div`
     width: 36rem;
   }
   @media (max-width: 394px) {
-    width: 25.8rem;
+    width: 28.2rem;
   }
 `;
 
@@ -53,7 +53,7 @@ const RegShapeUnderline = styled.div`
     right: 0%;
   }
   @media (max-width: 394px) {
-    margin-top: 1.5rem;
+    margin-top: 1.4rem;
   }
 `;
 

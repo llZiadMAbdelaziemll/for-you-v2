@@ -69,12 +69,13 @@ const LoginFormLayout = styled.div`
         font-size: 1.53rem;
       }
       & form input {
-        width: 25.8rem;
+        width: 28.2rem;
         padding-left: 1.34rem;
         font-size: 1.3rem;
       }
       & form button {
-        width: 25.8rem;
+        width: 28.2rem;
+
         font-size: 1.5rem;
       }
     `}
