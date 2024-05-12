@@ -6,7 +6,7 @@ import Heading from "../ui/Heading";
 import Description from "../ui/Description";
 
 const SignupLayout = styled.main`
-  min-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 50% 50%;
   ${(props) =>
@@ -16,9 +16,6 @@ const SignupLayout = styled.main`
     `}
   align-content: center;
   justify-content: center;
-  @media (max-width: 394px) {
-    min-height: 90vh;
-  }
 `;
 const SignupFormLayout = styled.div`
   background-color: var(--color-grey-0);
