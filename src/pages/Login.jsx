@@ -63,7 +63,7 @@ const LoginFormLayout = styled.div`
       }
     `}
   ${(props) =>
-    props.screenWidth <= 366 &&
+    props.screenWidth <= 394 &&
     css`
       & h4 {
         font-size: 1.53rem;

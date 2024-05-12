@@ -15,7 +15,7 @@ const RegitserShapeContainer = styled.div`
   @media (max-width: 480px) {
     width: 36rem;
   }
-  @media (max-width: 366px) {
+  @media (max-width: 394px) {
     width: 25.8rem;
   }
 `;
@@ -26,7 +26,7 @@ const RegitserShape = styled.div`
   background-color: var(--color-grey-50);
   text-align: center;
   color: rgba(255, 255, 255, 0.6);
-  @media (max-width: 366px) {
+  @media (max-width: 394px) {
     padding: 1.4rem;
   }
 `;
@@ -50,7 +50,7 @@ const RegShapeUnderline = styled.div`
   &:after {
     right: 0%;
   }
-  @media (max-width: 366px) {
+  @media (max-width: 394px) {
     margin-top: 1.8rem;
   }
 `;
@@ -66,7 +66,7 @@ const Already = styled.div`
   font-size: 1.6rem;
 
   margin: 0 auto;
-  @media (max-width: 366px) {
+  @media (max-width: 394px) {
     font-size: 1.46rem;
   }
 `;
@@ -79,7 +79,7 @@ const Link = styled.a`
   &:hover {
     color: var(--color-brand-700);
   }
-  @media (max-width: 366px) {
+  @media (max-width: 394px) {
     font-size: 1.5rem;
   }
 `;

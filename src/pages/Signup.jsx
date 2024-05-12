@@ -61,7 +61,7 @@ const SignupFormLayout = styled.div`
       }
     `}
   ${(props) =>
-    props.screenWidth <= 366 &&
+    props.screenWidth <= 394 &&
     css`
       gap: 1.5rem;
 
