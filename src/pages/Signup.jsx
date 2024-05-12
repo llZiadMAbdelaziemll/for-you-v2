@@ -16,6 +16,9 @@ const SignupLayout = styled.main`
     `}
   align-content: center;
   justify-content: center;
+  @media (max-width: 394px) {
+    min-height: 90vh;
+  }
 `;
 const SignupFormLayout = styled.div`
   background-color: var(--color-grey-0);
