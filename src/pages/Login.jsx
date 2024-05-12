@@ -62,6 +62,22 @@ const LoginFormLayout = styled.div`
         width: 36rem;
       }
     `}
+  ${(props) =>
+    props.screenWidth <= 366 &&
+    css`
+      & h4 {
+        font-size: 1.53rem;
+      }
+      & form input {
+        width: 25.8rem;
+        padding-left: 1.34rem;
+        font-size: 1.3rem;
+      }
+      & form button {
+        width: 25.8rem;
+        font-size: 1.5rem;
+      }
+    `}
 `;
 const LogoLayout = styled.div`
   min-height: 100vh;

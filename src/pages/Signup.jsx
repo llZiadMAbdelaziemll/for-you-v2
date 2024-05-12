@@ -60,6 +60,32 @@ const SignupFormLayout = styled.div`
         width: 26.5rem;
       }
     `}
+  ${(props) =>
+    props.screenWidth <= 366 &&
+    css`
+      gap: 1.5rem;
+
+      & h4 {
+        font-size: 1.53rem;
+      }
+      & form input {
+        width: 25.8rem;
+        padding: 0.8rem 1.2rem;
+
+        font-size: 1.3rem;
+      }
+      & form button {
+        font-size: 1.33rem;
+        padding: 1.1rem 0rem;
+      }
+
+      & form button:first-child {
+        width: 65px;
+      }
+      & form button:last-child {
+        width: 18rem;
+      }
+    `}
 `;
 const LogoLayout = styled.div`
   min-height: 100vh;

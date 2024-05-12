@@ -14,11 +14,12 @@ const RegitserShapeContainer = styled.div`
   width: 410px;
   margin: auto;
   margin-top: 10px;
-  ${(props) =>
-    props.screenWidth <= 480 &&
-    css`
-      max-width: 100%;
-    `}
+  @media (max-width: 480px) {
+    width: 36rem;
+  }
+  @media (max-width: 366px) {
+    width: 25.8rem;
+  }
 `;
 
 const RegitserShape = styled.div`
@@ -27,6 +28,9 @@ const RegitserShape = styled.div`
   background-color: var(--color-grey-50);
   text-align: center;
   color: rgba(255, 255, 255, 0.6);
+  @media (max-width: 366px) {
+    padding: 1.2rem;
+  }
 `;
 
 const RegShapeUnderline = styled.div`
@@ -48,6 +52,9 @@ const RegShapeUnderline = styled.div`
   &:after {
     right: 0%;
   }
+  @media (max-width: 366px) {
+    margin-top: 1.5rem;
+  }
 `;
 
 const Or = styled.span`
@@ -59,6 +66,10 @@ const Or = styled.span`
 const Already = styled.div`
   padding-top: 8px;
   font-size: 16px;
+  margin: 0 auto;
+  @media (max-width: 366px) {
+    font-size: 1.46rem;
+  }
 `;
 
 const Link = styled.a`
@@ -68,6 +79,12 @@ const Link = styled.a`
 
   &:hover {
     color: var(--color-brand-700);
+  }
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
+  @media (max-width: 366px) {
+    font-size: 1.5rem;
   }
 `;
 function SignupForm({ screenWidth }) {
@@ -165,15 +182,17 @@ function SignupForm({ screenWidth }) {
           Create new user
         </Button>
       </FormRow>
-      <RegitserShapeContainer screenWidth={screenWidth}>
-        <RegitserShape>Register</RegitserShape>
-        <RegShapeUnderline>
-          <Or>OR</Or>
-        </RegShapeUnderline>
-      </RegitserShapeContainer>
-      <Already>
-        already registered ? <Link onClick={handleHaveAcc}>log in</Link>
-      </Already>
+      <FormRow>
+        <RegitserShapeContainer screenWidth={screenWidth}>
+          <RegitserShape>Register</RegitserShape>
+          <RegShapeUnderline>
+            <Or>OR</Or>
+          </RegShapeUnderline>
+        </RegitserShapeContainer>
+        <Already>
+          already registered ? <Link onClick={handleHaveAcc}>log in</Link>
+        </Already>
+      </FormRow>
     </Form>
   );
 }

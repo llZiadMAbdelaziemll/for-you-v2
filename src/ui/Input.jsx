@@ -7,6 +7,9 @@ const Input = styled.input`
       width: 41rem;
       height: 5.68rem;
       justify-content: center;
+      @media (max-width: 366px) {
+        height: 5.28rem;
+      }
     `}
 
   border: 1px solid var(--color-grey-300);
