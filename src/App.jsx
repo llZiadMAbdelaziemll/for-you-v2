@@ -25,6 +25,7 @@ import Signup from "./pages/Signup";
 
 import Advanced from "./pages/Advanced";
 import { MiniProvider } from "./context/MiniContext";
+import { useScreenWidth } from "./hooks/useScreenWidth";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -35,7 +36,7 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  // getCurrentUserRole();
+  const width = useScreenWidth();
   return (
     <DarkModeProvider>
       <MiniProvider>
@@ -86,9 +87,11 @@ function App() {
                 duration: 5000,
               },
               style: {
-                fontSize: "16px",
+                // fontSize: "16px",
+                fontSize: `${width > 480 ? "16px" : "14px"}`,
                 maxWidth: "500px",
-                padding: "16px 24px",
+                // padding: "16px 24px",
+                padding: `${width > 480 ? "16px 24px" : "15px 18px"}`,
                 backgroundColor: "var(--color-grey-0)",
                 color: "var(--color-grey-700)",
               },

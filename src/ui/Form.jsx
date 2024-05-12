@@ -41,6 +41,16 @@ const Form = styled.form`
       align-items: center;
       gap: 0.8rem;
       width: 80rem;
+      @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+        width: 30rem;
+        max-height: 70vh;
+        gap: 0.35rem;
+        overflow-y: scroll;
+        ::-webkit-scrollbar {
+          display: none;
+        }
+      }
     `}
     
   overflow: hidden;

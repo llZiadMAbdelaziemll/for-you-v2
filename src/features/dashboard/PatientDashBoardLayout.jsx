@@ -18,6 +18,11 @@ const StyledDashboardLayout = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto auto auto 34rem;
   gap: 2.4rem;
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr 1fr;
+
+    grid-template-rows: auto auto auto auto;
+  }
 `;
 const FirstOrder = styled.div`
   grid-column: span 2;
@@ -31,10 +36,13 @@ const FirstOrder = styled.div`
   padding: 1.6rem;
 
   gap: 1rem;
+  & p {
+    color: #96a2b4;
+  }
 `;
 const Span = styled.span`
   font-size: 18px;
-  color: red;
+  color: var(--color-red-700);
   display: block;
 `;
 function PatientDashboardLayout() {

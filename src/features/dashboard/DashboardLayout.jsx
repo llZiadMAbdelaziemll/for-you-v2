@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useRecentStays } from "./useRecentStays";
 import { useRecentAppointments } from "./useRecentAppointments";
 import { useRecentPatients } from "./useRecentPatients";
@@ -26,7 +26,12 @@ const StyledDashboardLayout = styled.div`
   gap: 2.4rem;
   @media (max-width: 480px) {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto 34rem auto;
+    ${(props) =>
+      props.userRole === "doctor" &&
+      css`
+        grid-template-rows: auto auto auto 34rem auto;
+      `}
+    grid-template-rows: auto auto auto auto auto;
   }
 `;
 
@@ -97,7 +102,7 @@ function DashboardLayout() {
   )
     return <Spinner />;
   return (
-    <StyledDashboardLayout>
+    <StyledDashboardLayout userRole={userRole}>
       <Stats
         appointmentsCount={finalAppointmentsCount}
         appointments={finalAppointments}

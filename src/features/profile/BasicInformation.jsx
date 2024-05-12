@@ -17,6 +17,10 @@ const StyledBasicInformation = styled.div`
   justify-content: center;
   gap: 2.4rem;
   width: 28%;
+  @media (max-width: 480px) {
+    width: 100%;
+    gap: 1.6rem;
+  }
 `;
 
 const Img = styled.img`
@@ -30,6 +34,9 @@ const Content = styled.div`
   align-items: space-around;
   gap: 1rem;
   text-align: center;
+  @media (max-width: 480px) {
+    gap: 0.4rem;
+  }
 `;
 const StyledButtons = styled.div`
   display: flex;
@@ -37,6 +44,9 @@ const StyledButtons = styled.div`
   justify-content: space-around;
   align-items: center;
   gap: 1rem;
+  @media (max-width: 480px) {
+    justify-content: space-between;
+  }
 `;
 const Name = styled.h2``;
 const Description = styled.div``;

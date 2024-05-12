@@ -221,7 +221,7 @@ function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
           Cancel
         </Button>
         <Button disabled={isWorking}>
-          {isEditSession ? "Edit appointment" : "Create new appointment"}
+          {isEditSession ? "Edit appointment" : "Create appointment"}
         </Button>
       </FormRow>
     </Form>

@@ -11,7 +11,7 @@ function Doctors() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">All doctors</Heading>
+        <Heading as="h1">Doctors</Heading>
         <DoctorTableOperations />
       </Row>
 

@@ -19,6 +19,9 @@ const Input = styled.input`
     css`
       width: 100%;
     `}
+  @media (max-width: 480px) {
+    padding: 0.7rem 1.2rem;
+  }
 `;
 Input.defaultProps = {
   inputType: "modal",

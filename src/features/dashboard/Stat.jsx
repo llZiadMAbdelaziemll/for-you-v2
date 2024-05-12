@@ -42,12 +42,18 @@ const Title = styled.h5`
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-500);
+  @media (max-width: 480px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const Value = styled.p`
   font-size: 2rem;
   line-height: 1;
   font-weight: 500;
+  @media (max-width: 480px) {
+    font-size: 1.8rem;
+  }
 `;
 
 function Stat({ icon, title, value, color }) {

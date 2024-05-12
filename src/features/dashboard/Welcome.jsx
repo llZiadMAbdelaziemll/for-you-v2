@@ -6,7 +6,7 @@ import { useUser } from "../authentication/useUser";
 import { usePatients } from "../patients/usePatients";
 import Diagnosis from "./Diagnosis";
 
-const StyledSurvayChart = styled.div`
+const StyledWelcome = styled.div`
   display: flex;
   gap: 2.4rem;
   grid-column: 1 / -1;
@@ -20,8 +20,11 @@ const StyledSurvayChart = styled.div`
   & .recharts-cartesian-grid-vertical line {
     stroke: var(--color-grey-300);
   }
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 2.4rem;
+  }
 `;
-const Image = styled.img``;
 
 const Content = styled.div`
   font-size: Roboto, sans-serif;
@@ -33,18 +36,27 @@ const WelcomeBack = styled.h5`
   letter-spacing: 0.026em;
   font-size: 16px;
   font-weight: 500 !important;
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 const Name = styled.h2`
   color: #2196f3 !important;
   font-size: 25px;
   letter-spacing: 0.03125em;
   font-weight: 500;
+  @media (max-width: 480px) {
+    font-size: 2.1rem;
+  }
 `;
 
 const Text = styled.p`
   margin-top: 10px;
   font-size: 16px;
   color: #96a2b4;
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 function Welcome({ name }) {
   const { user } = useUser();
@@ -59,8 +71,8 @@ function Welcome({ name }) {
 
   const report = myProfile?.at(0)?.reports;
   return (
-    <StyledSurvayChart>
-      <Image src="/welcome.png" />
+    <StyledWelcome>
+      <img src="/welcome.png" alt="welcome" />
       <Content>
         <Row type="horizontal">
           <div>
@@ -76,7 +88,7 @@ function Welcome({ name }) {
           comprehensive health care focusing on wellness and prevention.
         </Text>
       </Content>
-    </StyledSurvayChart>
+    </StyledWelcome>
   );
 }
 export default Welcome;

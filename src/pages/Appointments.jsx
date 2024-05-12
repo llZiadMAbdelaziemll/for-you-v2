@@ -11,7 +11,7 @@ function Appointments() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">All appointments</Heading>
+        <Heading as="h1">appointments</Heading>
         <AppointmentTableOperations />
       </Row>
       <Row>

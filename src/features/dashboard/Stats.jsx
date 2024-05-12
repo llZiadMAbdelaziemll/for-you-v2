@@ -90,7 +90,8 @@ function Stats({
         title={`${userRole === "doctor" ? "My Gain" : "Sales"}  `}
         color="green"
         icon={<HiOutlineBanknotes />}
-        value={formatCurrency(sales)}
+        // value={formatCurrency(sales)}
+        value={`$${sales}`}
       />
       <Stat
         title="Check ins"

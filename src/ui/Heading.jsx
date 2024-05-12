@@ -6,6 +6,9 @@ const Heading = styled.h1`
     css`
       font-size: 3rem;
       font-weight: 600;
+      @media (max-width: 480px) {
+        font-size: 2.6rem;
+      }
     `}
 
   ${(props) =>

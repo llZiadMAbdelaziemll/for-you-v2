@@ -26,6 +26,9 @@ const StyledFormRow = styled.div`
     justify-content: flex-end;
     gap: 1.2rem;
   }
+  @media (max-width: 480px) {
+    padding: 0.9rem 0;
+  }
 `;
 
 const Label = styled.label`
@@ -35,6 +38,9 @@ const Label = styled.label`
 const Error = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+  }
 `;
 
 function FormRow({ error, children, label }) {

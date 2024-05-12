@@ -15,6 +15,10 @@ const StyledExtraInformation = styled.div`
   margin: 0 auto;
   /* padding: 1rem 2rem; */
   background-color: var(--color-grey-0);
+  @media (max-width: 480px) {
+    width: 100%;
+    margin: 3.5rem auto 0;
+  }
 `;
 const InformationRow = styled.div`
   display: flex;

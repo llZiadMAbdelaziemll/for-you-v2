@@ -25,6 +25,9 @@ const Main = styled.main`
   &::-webkit-scrollbar {
     display: none;
   }
+  @media (max-width: 480px) {
+    padding: 4rem 2.5rem 4rem;
+  }
 `;
 
 const Container = styled.div`

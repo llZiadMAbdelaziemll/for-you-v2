@@ -8,7 +8,13 @@ const StyledFilter = styled.div`
   border-radius: var(--border-radius-sm);
   padding: 0.4rem;
   display: flex;
+
   gap: 0.4rem;
+  @media (max-width: 480px) {
+    padding: 0;
+    margin-left: 3rem;
+    gap: 0.1rem;
+  }
 `;
 
 const FilterButton = styled.button`
@@ -32,6 +38,10 @@ const FilterButton = styled.button`
   &:hover:not(:disabled) {
     background-color: var(--color-brand-600);
     color: var(--color-brand-50);
+  }
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.7rem;
   }
 `;
 
