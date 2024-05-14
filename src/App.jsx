@@ -16,7 +16,6 @@ import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import Profile from "./pages/Profile";
-import Records from "./pages/Records";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
@@ -55,7 +54,6 @@ function App() {
                   element={<Appointment />}
                 />
                 <Route path="checkin/:appointmentId" element={<Checkin />} />
-                <Route path="records" element={<Records />} />
                 <Route path="advanced" element={<Advanced />} />
 
                 <Route path="users" element={<Users />} />

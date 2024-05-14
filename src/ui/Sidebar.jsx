@@ -1,8 +1,9 @@
 import styled, { css } from "styled-components";
+import { useMini } from "../context/MiniContext";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
 import Uploader from "../data/Uploader";
-import { useMini } from "../context/MiniContext";
+
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
   padding: 3.2rem 0rem;

@@ -93,13 +93,6 @@ function MainNav() {
         </li>
 
         <li>
-          <StyledNavLink to="/records">
-            <AiFillProfile />
-            <span>Records</span>
-          </StyledNavLink>
-        </li>
-
-        <li>
           <StyledNavLink to="/advanced">
             <FaRegPlusSquare />
             <span>Advanced</span>
@@ -111,26 +104,6 @@ function MainNav() {
             <span>Sittings</span>
           </StyledNavLink>
         </li>
-
-        {/* <li>
-          <StyledNavLink>
-            <FaBed />
-            <span>Room Allotment</span>
-          </StyledNavLink>
-        </li> */}
-
-        {/* <li>
-          <StyledNavLink>
-            <FaShuttleVan />
-            <span>Ambulance</span>
-          </StyledNavLink>
-        </li> */}
-        {/* <li>
-          <StyledNavLink>
-            <MdLocalPharmacy />
-            <span>Pharmacy</span>
-          </StyledNavLink>
-        </li> */}
       </NavList>
     </nav>
   );
