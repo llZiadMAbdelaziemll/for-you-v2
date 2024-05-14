@@ -1,17 +1,12 @@
 import {
   HiOutlineBanknotes,
-  HiOutlineBriefcase,
   HiOutlineCalendarDays,
   HiOutlineChartBar,
   HiUserGroup,
-  HiFaceSmile,
 } from "react-icons/hi2";
 import { FaUserInjured, FaHackerNewsSquare } from "react-icons/fa";
-
-import Stat from "./Stat";
-import { formatCurrency } from "../../utils/helpers";
-import styled from "styled-components";
 import { useUser } from "../authentication/useUser";
+import Stat from "./Stat";
 
 // const StyledStats = styled.div`
 //   /* Box */
@@ -33,22 +28,17 @@ function Stats({
   todayPatientsCount,
 }) {
   const { user } = useUser();
-  let userRole = user.user_metadata.role;
-  // 1.
-  // const numAppointments = appointments?.length;
+  const userRole = user.user_metadata.role;
 
-  // 2.
   const sales = appointments?.reduce((acc, cur) => acc + cur.doctors?.price, 0);
 
-  // 3.
   const checkins = confirmedStays?.length;
 
-  // 4.
   const occupation =
     confirmedStays.reduce((acc, cur) => acc + cur.numOfCons, 0) /
     (numDays * doctorCount);
   // num checked in nights / all available nights (num days * num cabins)
-  // 5.
+
   const todayPatients = todayPatientsCount?.length;
   return (
     <>

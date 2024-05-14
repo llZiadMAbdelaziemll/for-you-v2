@@ -1,19 +1,9 @@
 import TableOperations from "../../ui/TableOperations";
-import Filter from "../../ui/Filter";
 import SortBy from "../../ui/SortBy";
 
 function DoctorTableOperations() {
   return (
     <TableOperations>
-      {/* <Filter
-        filterField="department"
-        options={[
-          { value: "all", label: "All" },
-          { value: "cardiology", label: "Cardiology" },
-          { value: "neurology", label: "Neurology" },
-        ]}
-      /> */}
-
       <SortBy
         options={[
           { value: "name-asc", label: "Sort by name (A-Z)" },

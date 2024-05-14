@@ -1,11 +1,9 @@
 import React from "react";
-import Table from "../../ui/Table";
-import ProfileRow from "./ProfileRow";
-import { useUser } from "../authentication/useUser";
 import styled from "styled-components";
 import { format } from "date-fns";
-import { formatCurrency } from "../../utils/helpers";
 import { useDoctorAppointments } from "../appointments/useDoctorAppointments";
+import { useUser } from "../authentication/useUser";
+import { formatCurrency } from "../../utils/helpers";
 
 const StyledExtraInformation = styled.div`
   display: flex;
@@ -13,8 +11,8 @@ const StyledExtraInformation = styled.div`
   justify-content: center;
   width: 60%;
   margin: 0 auto;
-  /* padding: 1rem 2rem; */
   background-color: var(--color-grey-0);
+
   @media (max-width: 480px) {
     width: 100%;
     margin: 3.5rem auto 0;
@@ -27,6 +25,7 @@ const InformationRow = styled.div`
   border-bottom: 1px solid var(--color-grey-100);
   padding: 1.6rem 2.4rem;
 `;
+
 const Topic = styled.h4`
   text-transform: capitalize;
 `;

@@ -2,18 +2,15 @@ import styled from "styled-components";
 import DashboardBox from "./DashboardBox";
 import Heading from "../../ui/Heading";
 import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
-  XAxis,
-  YAxis,
 } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext";
-import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
+import Spinner from "../../ui/Spinner";
 
 const StyledGenderChart = styled(DashboardBox)`
   /* Box */
@@ -31,82 +28,103 @@ const StyledGenderChart = styled(DashboardBox)`
   & .recharts-pie-label-text {
     font-weight: 600;
   }
+  @media (max-width: 480px) {
+    grid-column: 1 / span 2;
+    padding: 2.4rem 0 2.4rem 3.2rem;
+  }
 `;
+// const startDataLight = [
+//   {
+//     gender: "male",
+//     value: 0,
+//     color: "#c7d2fe",
+//   },
+//   {
+//     gender: "female",
+//     value: 0,
+//     color: "#dcfce7",
+//   },
+// ];
 
-function PatientSurvayChart({ doctorPatients = {}, numDays }) {
+// const startDataDark = [
+//   {
+//     gender: "male",
+//     value: 5,
+//     color: "#4f46e5",
+//   },
+//   {
+//     gender: "female",
+//     value: 3,
+//     color: "#22c55e",
+//   },
+// ];
+function preparData(males, females, isDarkMode) {
+  return [
+    {
+      gender: "male",
+      value: males,
+      color: `${isDarkMode ? "#4f46e5" : "#3b82f6"}`,
+    },
+    {
+      gender: "female",
+      value: females,
+      color: `${isDarkMode ? "#22c55e" : "#14b8a6"}`,
+    },
+  ];
+}
+function GenderChart({ doctorPatients = {}, isLoading }) {
   const { isDarkMode } = useDarkMode();
 
-  const allDates = eachDayOfInterval({
-    start: subDays(new Date(), numDays - 1),
-    end: new Date(),
-  });
+  const males = doctorPatients?.filter(
+    (patient) => patient.gender === "male"
+  ).length;
+  const females = doctorPatients?.filter(
+    (patient) => patient.gender === "female"
+  ).length;
 
-  const data = allDates.map((date) => {
-    return {
-      label: format(date, "MMM dd"),
-      male: doctorPatients
-        ?.filter((patient) => isSameDay(date, new Date(patient.created_at)))
-        .filter((patient) => patient.gender === "male").length,
-      female: doctorPatients
-        ?.filter((patient) => isSameDay(date, new Date(patient.created_at)))
-        .filter((patient) => patient.gender === "female").length,
-    };
-  });
-
-  const colors = isDarkMode
-    ? {
-        male: { stroke: "#4f46e5", fill: "#4f46e5" },
-        female: { stroke: "#22c55e", fill: "#22c55e" },
-        text: "#e5e7eb",
-        background: "#18212f",
-      }
-    : {
-        male: { stroke: "#4f46e5", fill: "#c7d2fe" },
-        female: { stroke: "#16a34a", fill: "#dcfce7" },
-        text: "#374151",
-        background: "#fff",
-      };
+  const data = preparData(males, females, isDarkMode);
 
   return (
     <StyledGenderChart>
       <Heading as="h2">Patients Gender</Heading>
 
-      <ResponsiveContainer width="100%" height={240}>
-        <BarChart width={730} height={250} data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="label"
-            tick={{ fill: colors.text }}
-            tickLine={{ stroke: colors.text }}
-          />
-          <YAxis
-            tick={{ fill: colors.text }}
-            tickLine={{ stroke: colors.text }}
-          />
-          <Tooltip contentStyle={{ backgroundColor: colors.background }} />
-          {/* <Legend /> */}
-          <Bar
-            dataKey="male"
-            type="monotone"
-            stroke={colors.male.stroke}
-            fill={colors.male.fill}
-            strokeWidth={2}
-            name="Male"
-            // unit="$"
-          />
-          <Bar
-            dataKey="female"
-            type="monotone"
-            stroke={colors.female.stroke}
-            fill={colors.female.fill}
-            strokeWidth={2}
-            name="Female"
-            // unit="$"
-          />
-        </BarChart>
-      </ResponsiveContainer>
+      {!isLoading ? (
+        <ResponsiveContainer width="100%" height={240}>
+          <PieChart>
+            <Pie
+              data={data}
+              nameKey="gender"
+              dataKey="value"
+              innerRadius={85}
+              outerRadius={110}
+              cx="40%"
+              cy="50%"
+              paddingAngle={3}
+            >
+              {data?.map((entry) => (
+                <Cell
+                  fill={entry.color}
+                  stroke={entry.color}
+                  key={entry.gender}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend
+              verticalAlign="middle"
+              align="right"
+              width="30%"
+              layout="vertical"
+              iconSize={15}
+              iconType="circle"
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      ) : (
+        <Spinner />
+      )}
     </StyledGenderChart>
   );
 }
 
-export default PatientSurvayChart;
+export default GenderChart;

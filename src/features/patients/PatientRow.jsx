@@ -1,16 +1,14 @@
 import styled from "styled-components";
 import { format } from "date-fns";
-
-import CreatePatientForm from "./CreatePatientForm";
-import { useDeletePatient } from "./useDeletePatient";
-// import { formatCurrency } from "../../utils/helpers";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import { useDeletePatient } from "./useDeletePatient";
 import { useCreatePatient } from "./useCreatePatient";
+import { useUser } from "../authentication/useUser";
+import CreatePatientForm from "./CreatePatientForm";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-import { useUser } from "../authentication/useUser";
 
 const Img = styled.img`
   display: block;
@@ -19,15 +17,12 @@ const Img = styled.img`
   aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: center;
-
   border-radius: 5px;
 `;
 
 const Field = styled.div`
   font-size: 14px;
   font-weight: 400;
-  // color: var(--color-grey-600);
-  // font-family: "Sono";
   text-transform: capitalize;
 `;
 
@@ -37,16 +32,11 @@ const BloodGroup = styled.div`
   text-transform: upperCase;
 `;
 
-// const Email = styled.div`
-//   font-size: 14px;
-//   font-weight: 400;
-//   text-transform: lowerCase;
-// `;
-
 function PatientRow({ patient }) {
   const { user } = useUser();
   const { isDeleting, deletePatient } = useDeletePatient();
   const { isCreating, createPatient } = useCreatePatient();
+
   const userRole = user?.user_metadata?.role;
   const {
     id: patientId,

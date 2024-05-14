@@ -8,20 +8,15 @@ import {
   HiTrash,
 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-
-// import Tag from "../../ui/Tag";
+import { useCheckout } from "../check-in-out/useCheckout";
+import { useDeleteAppointment } from "./useDeleteAppointment";
+import { useUser } from "../authentication/useUser";
+import CreateAppointmentForm from "./CreateAppointmentForm";
 import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
 import Tag from "../../ui/Tag";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-
-// import { formatCurrency } from "../../utils/helpers";
-// import { formatDistanceFromNow } from "../../utils/helpers";
-import { useCheckout } from "../check-in-out/useCheckout";
-import { useDeleteAppointment } from "./useDeleteAppointment";
-import CreateAppointmentForm from "./CreateAppointmentForm";
-import { useUser } from "../authentication/useUser";
 
 const Doctor = styled.div`
   font-size: 1.6rem;
@@ -46,18 +41,15 @@ const Stacked = styled.div`
 `;
 
 function AppointmentRow({ appointment }) {
-  const { user } = useUser();
   const navigate = useNavigate();
+  const { user } = useUser();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteAppointment, isDeleting } = useDeleteAppointment();
-  const userName = user?.user_metadata?.name;
   const userRole = user?.user_metadata?.role;
+
   const {
     id: appointmentId,
-    created_at,
-
     startDate,
-    endDate,
     isPaid,
     status,
     numOfCons,
@@ -65,6 +57,7 @@ function AppointmentRow({ appointment }) {
       name: patientName,
       image,
       mobile,
+      bloodGroup,
       reports: { diagnosis },
     },
     doctors: { name: doctorName },
@@ -74,7 +67,7 @@ function AppointmentRow({ appointment }) {
     "checked-in": "green",
     "checked-out": "silver",
   };
-  console.log(userRole);
+
   return (
     <Table.Row>
       <img src={image} alt="notfound" />
@@ -101,7 +94,7 @@ function AppointmentRow({ appointment }) {
       </Stacked>
 
       <Stacked>
-        <span>{numOfCons}</span>
+        <span>{bloodGroup}</span>
       </Stacked>
       <Stacked>
         <span>{diagnosis}</span>
@@ -111,9 +104,6 @@ function AppointmentRow({ appointment }) {
       <Stacked>
         <span>{isPaid?.toString()}</span>
       </Stacked>
-      {/* <Stacked>
-        <span>{status}</span>
-      </Stacked> */}
 
       <Modal>
         <Menus.Menu>

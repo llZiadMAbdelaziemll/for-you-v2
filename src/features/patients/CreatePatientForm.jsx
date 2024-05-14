@@ -82,7 +82,16 @@ function CreatePatientForm({ patientToEdit = {}, onCloseModal }) {
           })}
         />
       </FormRow>
-
+      <FormRow label="Gmail" error={errors?.email?.message}>
+        <Input
+          type="email"
+          id="email"
+          disabled={isWorking}
+          {...register("email", {
+            required: "This field is required",
+          })}
+        />
+      </FormRow>
       <FormRow label="Gender" error={errors?.gender?.message}>
         <Input
           type="text"
@@ -148,6 +157,7 @@ function CreatePatientForm({ patientToEdit = {}, onCloseModal }) {
           })}
         />
       </FormRow>
+
       <FormRow label="Image">
         <FileInput
           id="image"
@@ -157,6 +167,8 @@ function CreatePatientForm({ patientToEdit = {}, onCloseModal }) {
           })}
         />
       </FormRow>
+      <FormRow></FormRow>
+
       {/* <FormRow> */}
       {/* type is an HTML attribute! */}
       <Button

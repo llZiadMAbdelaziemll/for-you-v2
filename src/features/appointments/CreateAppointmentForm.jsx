@@ -14,7 +14,7 @@ import { usePatients } from "../patients/usePatients";
 import Select from "../../ui/Select";
 import { useReportsId } from "../reports/useReportsId";
 import { useReport } from "../reports/useReport";
-import { getToday } from "../../utils/helpers";
+import { formatDistanceFromNow, getToday } from "../../utils/helpers";
 
 function CreateAppointmentForm({ appointmentToEdit = {}, onCloseModal }) {
   const { user } = useUser();

@@ -1,20 +1,21 @@
-import AppointmentRow from "./AppointmentRow";
-import Table from "../../ui/Table";
-import Menus from "../../ui/Menus";
-import Empty from "../../ui/Empty";
-
-import { useAppointments } from "./useAppointments";
-import Spinner from "../../ui/Spinner";
-import Pagination from "../../ui/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { useDoctorAppointments } from "./useDoctorAppointments";
 import { usePatientAppointments } from "./usePatientAppointments";
 import { useUser } from "../authentication/useUser";
+import { useAppointments } from "./useAppointments";
+import AppointmentRow from "./AppointmentRow";
+import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
+import Empty from "../../ui/Empty";
+import Spinner from "../../ui/Spinner";
+import Pagination from "../../ui/Pagination";
 
 function AppointmentTable() {
+  const [searchParams] = useSearchParams();
+
   const { appointments, isLoading, count } = useAppointments();
   const { user } = useUser();
-  console.log(user);
+
   const {
     isLoading: doctorAppointmentsIsLoading,
     doctorAppointments,
@@ -26,9 +27,6 @@ function AppointmentTable() {
     patientAppointments,
     count: patientAppointmentsCount,
   } = usePatientAppointments(user?.user_metadata?.name);
-  console.log(count);
-
-  const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
 
@@ -36,7 +34,7 @@ function AppointmentTable() {
 
   // 1) FILTER
   const filterValue = searchParams.get("appointmentsFilters") || "all";
-  console.log(appointments.doctors);
+
   let filteredAppointments;
   if (filterValue === "all") filteredAppointments = appointments;
   if (filterValue === "checked-in")
@@ -118,6 +116,7 @@ function AppointmentTable() {
       : user?.user_metadata?.role === "patient"
       ? patientAppointmentsCount
       : count;
+
   return (
     <Menus>
       <Table columns="60px 120px 120px 120px 120px 80px 90px 100px 70px 10px">
@@ -128,18 +127,13 @@ function AppointmentTable() {
           <div>Mobile</div>
           <div>Doctor</div>
           <div>Start date</div>
-          <div>duration</div>
+          <div>B-Group</div>
           <div>Condition</div>
           <div>Status</div>
 
           <div>is paid</div>
           <div></div>
         </Table.Header>
-        {/* `${
-            user?.user_metadata?.role === "doctor"
-              ? `${doctorAppointments}`
-              : `${sortedAppointments}`
-          } ` */}
         <Table.Body
           data={data}
           render={(appointment) => (

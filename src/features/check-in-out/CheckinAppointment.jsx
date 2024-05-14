@@ -26,6 +26,14 @@ const Box = styled.div`
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
   padding: 2.4rem 4rem;
+  @media (max-width: 480px) {
+    padding: 2rem 2rem;
+    font-size: 1.45rem;
+    & input[type="checkbox"] {
+      height: 1.8rem;
+      width: 1.8rem;
+    }
+  }
 `;
 
 function CheckinAppointment() {
@@ -66,22 +74,6 @@ function CheckinAppointment() {
       </Row>
 
       <AppointmentDataBox appointment={appointment} />
-
-      {/* {!hasBreakfast && (
-        <Box>
-          <Checkbox
-            checked={addBreakfast}
-            onChange={() => {
-              setAddBreakfast((add) => !add);
-              setConfirmPaid(false);
-            }}
-            id="breakfast"
-          >
-            Want to add breakfast for {formatCurrency(optionalBreakfastPrice)}?
-          </Checkbox>
-        </Box>
-      )} */}
-
       <Box>
         <Checkbox
           checked={confirmPaid}

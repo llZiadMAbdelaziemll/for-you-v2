@@ -2,7 +2,7 @@ import { useState } from "react";
 import { isFuture, isPast, isToday } from "date-fns";
 import supabase from "../services/supabase";
 import Button from "../ui/Button";
-import { subtractDates } from "../utils/helpers";
+import { formatDistanceFromNow, subtractDates } from "../utils/helpers";
 
 import { appointments } from "./data-appointments";
 import { doctors } from "./data-doctors";
@@ -108,6 +108,8 @@ async function createAppointments() {
     //   .at(appointment.patientId - 2).report;
     console.log(patientReport);
     const numOfCons = subtractDates(appointment.endDate, appointment.startDate);
+    // const numOfCons = formatDistanceFromNow(appointment.startDate);
+
     // const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
     // const extrasPrice = appointment.hasBreakfast
     //   ? numNights * 15 * appointment.numGuests

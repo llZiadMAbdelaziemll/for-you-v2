@@ -4,9 +4,10 @@ import { useScreenWidth } from "../hooks/useScreenWidth";
 import Logo from "../ui/Logo";
 import Heading from "../ui/Heading";
 import Description from "../ui/Description";
+import AuthLogoShape from "../features/authentication/AuthLogoShape";
 
 const LoginLayout = styled.main`
-  height: 100vh;
+  min-height: 100vh;
   display: grid;
   grid-template-columns: 50% 50%;
   ${(props) =>
@@ -101,7 +102,8 @@ function Login() {
       <LoginFormLayout screenWidth={screenWidth}>
         <Heading as="h2">Log in</Heading>
         <Description as="h4">Log in to your account</Description>
-        <LoginForm screenWidth={screenWidth} />
+        <LoginForm />
+        <AuthLogoShape type="login" />
       </LoginFormLayout>
     </LoginLayout>
   );

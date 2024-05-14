@@ -4,91 +4,8 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import { useSignup } from "./useSignup";
-import Description from "../../ui/Description";
-import styled, { css } from "styled-components";
-import { useNavigate } from "react-router-dom";
-// import { RegisterAsk } from "../../ui/RegisterAsk";
 
-// Email regex: /\S+@\S+\.\S+/
-const RegitserShapeContainer = styled.div`
-  width: 410px;
-  margin: auto;
-  margin-top: 10px;
-  @media (max-width: 480px) {
-    width: 36rem;
-  }
-  @media (max-width: 394px) {
-    width: 28.2rem;
-  }
-`;
-
-const RegitserShape = styled.div`
-  width: 100%;
-  padding: 15px;
-  background-color: var(--color-grey-50);
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-  @media (max-width: 394px) {
-    padding: 1.2rem;
-  }
-`;
-
-const RegShapeUnderline = styled.div`
-  position: relative;
-  text-align: center;
-  margin-top: 20px;
-  &:before,
-  &:after {
-    content: "";
-    position: absolute;
-    top: -5px;
-    width: 40%;
-    border-bottom: solid 1px white;
-  }
-  &:before {
-    left: 0;
-  }
-
-  &:after {
-    right: 0%;
-  }
-  @media (max-width: 394px) {
-    margin-top: 1.4rem;
-  }
-`;
-
-const Or = styled.span`
-  position: absolute;
-  top: -15px;
-  left: 47%;
-`;
-
-const Already = styled.div`
-  padding-top: 8px;
-  font-size: 16px;
-  margin: 0 auto;
-  @media (max-width: 394px) {
-    font-size: 1.46rem;
-  }
-`;
-
-const Link = styled.a`
-  padding-left: 5px;
-  cursor: pointer;
-  color: var(--color-brand-600);
-
-  &:hover {
-    color: var(--color-brand-700);
-  }
-  @media (max-width: 480px) {
-    font-size: 1.5rem;
-  }
-  @media (max-width: 394px) {
-    font-size: 1.5rem;
-  }
-`;
-function SignupForm({ screenWidth }) {
-  const navigate = useNavigate();
+function SignupForm() {
   const { signup, isLoading } = useSignup();
   const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { errors } = formState;
@@ -100,11 +17,6 @@ function SignupForm({ screenWidth }) {
         onSettled: () => reset(),
       }
     );
-  }
-
-  function handleHaveAcc(e) {
-    e.preventDefault();
-    navigate("/login");
   }
 
   return (
@@ -181,17 +93,6 @@ function SignupForm({ screenWidth }) {
         <Button variation="register" disabled={isLoading}>
           Create new user
         </Button>
-      </FormRow>
-      <FormRow>
-        <RegitserShapeContainer screenWidth={screenWidth}>
-          <RegitserShape>Register</RegitserShape>
-          <RegShapeUnderline>
-            <Or>OR</Or>
-          </RegShapeUnderline>
-        </RegitserShapeContainer>
-        <Already>
-          already registered ? <Link onClick={handleHaveAcc}>log in</Link>
-        </Already>
       </FormRow>
     </Form>
   );

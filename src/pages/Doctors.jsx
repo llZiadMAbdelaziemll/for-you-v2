@@ -1,9 +1,10 @@
+import { useUser } from "../features/authentication/useUser";
 import DoctorTable from "../features/doctors/DoctorTable";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import AddDoctor from "../features/doctors/AddDoctor";
 import DoctorTableOperations from "../features/doctors/DoctorTableOperations";
-import { useUser } from "../features/authentication/useUser";
+
 function Doctors() {
   const { user } = useUser();
   const userRole = user?.user_metadata?.role;

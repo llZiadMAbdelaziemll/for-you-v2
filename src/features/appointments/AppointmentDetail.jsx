@@ -18,11 +18,24 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteAppointment } from "./useDeleteAppointment";
 import Empty from "../../ui/Empty";
+import Tag from "../../ui/Tag";
 
 const HeadingGroup = styled.div`
   display: flex;
   gap: 2.4rem;
   align-items: center;
+  @media (max-width: 480px) {
+    gap: 1rem;
+
+    & h1 {
+      font-size: 2.2rem;
+    }
+    & span {
+      font-size: 1rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 100px;
+    }
+  }
 `;
 
 function AppointmentDetail() {
@@ -37,18 +50,18 @@ function AppointmentDetail() {
   if (!appointment) return <Empty resourceName="appointment" />;
   const { status, id: appointmentId } = appointment;
 
-  // const statusToTagName = {
-  //   unconfirmed: "blue",
-  //   "checked-in": "green",
-  //   "checked-out": "silver",
-  // };
+  const statusToTagName = {
+    unconfirmed: "blue",
+    "checked-in": "green",
+    "checked-out": "silver",
+  };
 
   return (
     <>
       <Row type="horizontal">
         <HeadingGroup>
           <Heading as="h1">Appointment #{appointmentId}</Heading>
-          {/* <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag> */}
+          <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
         </HeadingGroup>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>

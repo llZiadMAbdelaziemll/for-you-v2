@@ -26,7 +26,7 @@ export async function getPatients({ page }) {
 export async function getPatientsAfterDate(date) {
   const { data, error } = await supabase
     .from("patients")
-    .select("created_at")
+    .select("*")
     .gte("created_at", date)
     .lte("created_at", getToday({ end: true }));
 

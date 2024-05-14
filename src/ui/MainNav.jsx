@@ -7,23 +7,10 @@ import {
   // HiOutlineHomeModern,
   // HiOutlineUsers,
   HiUserGroup,
-  HiCurrencyDollar,
 } from "react-icons/hi2";
-import { RiDashboardFill } from "react-icons/ri";
 import { AiFillProfile } from "react-icons/ai";
-import {
-  FaRegPlusSquare,
-  FaUserInjured,
-  FaBed,
-  FaShuttleVan,
-  FaHome,
-} from "react-icons/fa";
-import {
-  MdAssignment,
-  MdGroupWork,
-  MdLocalPharmacy,
-  MdShoppingBag,
-} from "react-icons/md";
+import { FaRegPlusSquare, FaUserInjured, FaHome } from "react-icons/fa";
+import { MdAssignment } from "react-icons/md";
 import { useUser } from "../features/authentication/useUser";
 
 const NavList = styled.ul`
@@ -105,12 +92,6 @@ function MainNav() {
           </StyledNavLink>
         </li>
 
-        <li>
-          <StyledNavLink to="/operations">
-            <MdAssignment />
-            <span>Operations</span>
-          </StyledNavLink>
-        </li>
         <li>
           <StyledNavLink to="/records">
             <AiFillProfile />

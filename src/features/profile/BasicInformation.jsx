@@ -1,15 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Heading from "../../ui/Heading";
 import { useUser } from "../authentication/useUser";
+import { useDeleteDoctor } from "../doctors/useDeleteDoctor";
 import Modal from "../../ui/Modal";
-import Menus from "../../ui/Menus";
 import Button from "../../ui/Button";
-import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
-import AddDoctor from "../doctors/AddDoctor";
 import CreateDoctorForm from "../doctors/CreateDoctorForm";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import { useDeleteDoctor } from "../doctors/useDeleteDoctor";
 
 const StyledBasicInformation = styled.div`
   display: flex;
@@ -17,6 +13,7 @@ const StyledBasicInformation = styled.div`
   justify-content: center;
   gap: 2.4rem;
   width: 28%;
+
   @media (max-width: 480px) {
     width: 100%;
     gap: 1.6rem;
@@ -34,6 +31,7 @@ const Content = styled.div`
   align-items: space-around;
   gap: 1rem;
   text-align: center;
+
   @media (max-width: 480px) {
     gap: 0.4rem;
   }
@@ -44,26 +42,26 @@ const StyledButtons = styled.div`
   justify-content: space-around;
   align-items: center;
   gap: 1rem;
+
   @media (max-width: 480px) {
     justify-content: space-between;
   }
 `;
-const Name = styled.h2``;
-const Description = styled.div``;
+
 const BasicInformation = ({ myObject }) => {
   const { user } = useUser();
   const { isDeleting, deleteDoctor } = useDeleteDoctor();
 
   const avatar = user?.user_metadata?.avatar;
-  // const name = user?.user_metadata?.name;
+
   return (
     <StyledBasicInformation>
       <Img src={avatar} alt={myObject?.name} />
       <Content>
-        <Name>
+        <h2>
           {myObject?.name} #{myObject?.id}
-        </Name>
-        <Description>{myObject?.specialization}</Description>
+        </h2>
+        <div>{myObject?.specialization}</div>
       </Content>
       <StyledButtons>
         <Modal>

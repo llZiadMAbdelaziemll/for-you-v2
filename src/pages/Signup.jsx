@@ -4,9 +4,10 @@ import SignupForm from "../features/authentication/SignupForm";
 import Logo from "../ui/Logo";
 import Heading from "../ui/Heading";
 import Description from "../ui/Description";
+import AuthLogoShape from "../features/authentication/AuthLogoShape";
 
 const SignupLayout = styled.main`
-  height: 100vh;
+  min-height: 100vh;
   display: grid;
   grid-template-columns: 50% 50%;
   ${(props) =>
@@ -83,7 +84,7 @@ const SignupFormLayout = styled.div`
       }
 
       & form button:first-child {
-        width: 70px;
+        width: 7rem;
       }
       & form button:last-child {
         width: 20rem;
@@ -113,7 +114,8 @@ function Signup() {
       <SignupFormLayout screenWidth={screenWidth}>
         <Heading as="h2">sign up</Heading>
         <Description as="h4">Enter details to create your account</Description>
-        <SignupForm screenWidth={screenWidth} />
+        <SignupForm />
+        <AuthLogoShape type="signup" />
       </SignupFormLayout>
     </SignupLayout>
   );

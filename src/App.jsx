@@ -1,7 +1,9 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
+import { Toaster } from "react-hot-toast";
+import { DarkModeProvider } from "./context/DarkModeContext";
+import { MiniProvider } from "./context/MiniContext";
+import { useScreenWidth } from "./hooks/useScreenWidth";
 import GlobalStyles from "./styles/GlobalStyles";
 import Dashboard from "./pages/Dashboard";
 
@@ -18,18 +20,12 @@ import Records from "./pages/Records";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
-import { Toaster } from "react-hot-toast";
-import { DarkModeProvider } from "./context/DarkModeContext";
-import Operations from "./pages/Operations";
 import Signup from "./pages/Signup";
-
 import Advanced from "./pages/Advanced";
-import { MiniProvider } from "./context/MiniContext";
-import { useScreenWidth } from "./hooks/useScreenWidth";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // staleTime: 60 * 1000,
       staleTime: 0,
     },
   },
@@ -59,7 +55,6 @@ function App() {
                   element={<Appointment />}
                 />
                 <Route path="checkin/:appointmentId" element={<Checkin />} />
-                <Route path="operations" element={<Operations />} />
                 <Route path="records" element={<Records />} />
                 <Route path="advanced" element={<Advanced />} />
 

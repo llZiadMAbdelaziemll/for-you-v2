@@ -1,6 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useUser } from "./useUser";
-import { useNavigate } from "react-router-dom";
 
 const StyledUserAvatar = styled.div`
   display: flex;
@@ -24,12 +24,13 @@ const Avatar = styled.img`
 `;
 
 function UserAvatar() {
-  const { user } = useUser();
   const navigate = useNavigate();
+  const { user } = useUser();
+
   const avatar = user?.user_metadata?.avatar;
   const name = user?.user_metadata?.name;
   const role = user?.user_metadata?.role;
-  console.log(user);
+
   return (
     <StyledUserAvatar
       onClick={role === "doctor" ? () => navigate("/profile") : undefined}

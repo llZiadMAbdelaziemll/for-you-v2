@@ -1,19 +1,18 @@
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-
+import { useDoctors } from "./useDoctors";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import DoctorRow from "./DoctorRow";
-import { useDoctors } from "./useDoctors";
-
 import Empty from "../../ui/Empty";
 import Pagination from "../../ui/Pagination";
+
 const TableTopic = styled.div`
-  font-size: 17px;
+  font-size: 1.7rem;
   letter-spacing: 0.0125em;
   font-weight: 500;
-  padding: 10px 15px;
+  padding: 1rem 1.5rem;
 `;
 
 function DoctorTable() {

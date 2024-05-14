@@ -1,28 +1,29 @@
 import styled from "styled-components";
-
+import { usePatients } from "./usePatients";
+import { useSearchParams } from "react-router-dom";
+import { useUser } from "../authentication/useUser";
+import { useDoctorAppointments } from "../appointments/useDoctorAppointments";
+import { useAllPatients } from "./useAllPatients";
+import Pagination from "../../ui/Pagination";
+import Empty from "../../ui/Empty";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import PatientRow from "./PatientRow";
-import { usePatients } from "./usePatients";
-import { useSearchParams } from "react-router-dom";
-import Empty from "../../ui/Empty";
-import { useUser } from "../authentication/useUser";
-import { useDoctorAppointments } from "../appointments/useDoctorAppointments";
-import Pagination from "../../ui/Pagination";
-import { useAllPatients } from "./useAllPatients";
 
 const TableTopic = styled.div`
-  font-size: 17px;
+  font-size: 1.7rem;
   letter-spacing: 0.0125em;
   font-weight: 500;
-  padding: 10px 15px;
+  padding: 1rem 1.5rem;
 `;
 
 function PatientTable() {
   const { user } = useUser();
+
   const userRole = user?.user_metadata?.role;
   const userName = user?.user_metadata?.name;
+
   const { isLoading, patients, count } = usePatients();
   const { isLoading: isLoading2, patients: allPatients } = useAllPatients();
 
@@ -35,8 +36,6 @@ function PatientTable() {
       (appointment) => appointment?.patients?.name === patient?.name
     )
   );
-
-  console.log(doctorPatients);
 
   if (isLoading) return <Spinner />;
   if (!patients.length) return <Empty resourceName="patients" />;
@@ -83,7 +82,6 @@ function PatientTable() {
           <div>Address</div>
           <div>Mobile</div>
           <div>Birth Date</div>
-
           <div>Treatment</div>
           <div></div>
         </Table.Header>

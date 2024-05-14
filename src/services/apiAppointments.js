@@ -1,13 +1,12 @@
+import supabase from "./supabase";
 import { getToday } from "../utils/helpers";
-import supabase, { supabaseUrl } from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
-import { useUser } from "../features/authentication/useUser";
 
 export async function getAppointments({ filter, sortBy, page }) {
   let query = supabase
     .from("appointments")
     .select(
-      "id, created_at,startDate, endDate,isPaid,status,numOfCons , doctors(id,name, email, price), patients(id,image, name, gender, mobile,reports(*))",
+      "id, created_at,startDate, endDate,isPaid,status,numOfCons , doctors(id,name, email, price), patients(id,image, name, gender, mobile,bloodGroup,reports(*))",
       { count: "exact" }
     );
 
@@ -40,7 +39,7 @@ export async function getAppointment(id) {
   const { data, error } = await supabase
     .from("appointments")
     .select(
-      "*, doctors(*), patients(id,image, name, gender, mobile,reports(*))"
+      "*, doctors(*), patients(id,image, name, gender, mobile,bloodGroup,reports(*))"
     )
     .eq("id", id)
     .single();
@@ -59,7 +58,7 @@ export async function getDoctorAppointments(
   let query = supabase
     .from("appointments")
     .select(
-      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))",
+      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,bloodGroup,reports(*))",
       { count: "exact" }
     )
     .eq("doctor:name", userName);
@@ -95,7 +94,7 @@ export async function getPatientAppointments(
   let query = supabase
     .from("appointments")
     .select(
-      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))",
+      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,bloodGroup,reports(*))",
       { count: "exact" }
     )
     .eq("name:name", userName);
@@ -157,7 +156,7 @@ export async function getDoctorAppointmentsAfterDate(userName, date) {
   const { data, error } = await supabase
     .from("appointments")
     .select(
-      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,reports(*))"
+      "id, created_at, startDate, endDate, isPaid, status, numOfCons, doctors(name, email, price), patients(image, name, gender, mobile,bloodGroup,reports(*))"
     )
     .eq("doctor:name", userName)
     .gte("created_at", date)

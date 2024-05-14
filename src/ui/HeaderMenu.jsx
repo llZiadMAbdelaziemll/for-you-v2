@@ -1,12 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { HiOutlineUser } from "react-icons/hi2";
+import { MdTableRows } from "react-icons/md";
+import { useScreenWidth } from "../hooks/useScreenWidth";
+import { useMini } from "../context/MiniContext";
 import Logout from "../features/authentication/Logout";
 import ButtonIcon from "./ButtonIcon";
-import { HiOutlineUser } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
 import DarkModeToggle from "./DarkModeToggle";
-import { useScreenWidth } from "../hooks/useScreenWidth";
-import { MdTableRows } from "react-icons/md";
-import { useMini } from "../context/MiniContext";
 
 const StyledHeaderMenu = styled.ul`
   display: flex;

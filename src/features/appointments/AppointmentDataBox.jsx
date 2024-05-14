@@ -12,16 +12,10 @@ import {
   HiOutlineHomeModern,
 } from "react-icons/hi2";
 import DataItem from "../../ui/DataItem";
-// import { Flag } from "../../ui/Flag";
-
-// const StyledAppointmentDataBox = styled.section`
-//   ${box} /* padding: 3.2rem 4rem; */
-//   overflow: hidden;
-// `;
+import { RiHotelBedLine } from "react-icons/ri";
 
 const Header = styled.header`
   background-color: var(--color-brand-500);
-  /* padding: 2.4rem 4rem; */
   padding: 2rem 4rem;
   color: #e0e7ff;
   font-size: 1.8rem;
@@ -48,10 +42,33 @@ const Header = styled.header`
     font-size: 2rem;
     margin-left: 4px;
   }
+  @media (max-width: 480px) {
+    padding: 1.5rem 2rem;
+
+    svg {
+      height: 2.6rem;
+      width: 2.6rem;
+    }
+
+    & div:first-child {
+    }
+    & p {
+      font-size: 1.4rem;
+    }
+    & span {
+      font-size: 1.4rem;
+    }
+    & p.end {
+      text-align: end;
+    }
+  }
 `;
 
 const Section = styled.section`
   padding: 3.2rem 4rem 1.2rem;
+  @media (max-width: 480px) {
+    padding: 4rem 1rem 1.2rem;
+  }
 `;
 
 const Patient = styled.div`
@@ -65,6 +82,9 @@ const Patient = styled.div`
   & p:first-of-type {
     font-weight: 500;
     color: var(--color-grey-700);
+  }
+  @media (max-width: 480px) {
+    flex-wrap: wrap;
   }
 `;
 
@@ -92,6 +112,20 @@ const Price = styled.div`
     width: 2.4rem;
     color: currentColor !important;
   }
+
+  @media (max-width: 480px) {
+    padding: 1rem 1rem;
+    & div {
+      font-size: 1.4rem;
+    }
+    & p:last-child {
+      font-size: 1.2rem;
+    }
+    svg {
+      height: 2rem;
+      width: 2rem;
+    }
+  }
 `;
 
 const Footer = styled.footer`
@@ -99,8 +133,16 @@ const Footer = styled.footer`
   font-size: 1.2rem;
   color: var(--color-grey-500);
   text-align: right;
+  @media (max-width: 480px) {
+    padding: 0.6rem 1rem 1.4rem;
+  }
 `;
-
+const Img = styled.img`
+  max-width: 2rem;
+  border-radius: var(--border-radius-tiny);
+  display: block;
+  border: 1px solid var(--color-grey-100);
+`;
 function AppointmentDataBox({ appointment }) {
   const {
     created_at,
@@ -109,7 +151,7 @@ function AppointmentDataBox({ appointment }) {
     startDate,
     endDate,
     // status,
-    // numOfCons,
+    numOfCons,
     email,
     patients: { name: patientName, image, gender, mobile },
     doctors: { name: doctorName, price },
@@ -119,55 +161,40 @@ function AppointmentDataBox({ appointment }) {
     <section>
       <Header>
         <div>
-          <HiOutlineHomeModern />
+          <RiHotelBedLine />
           <p>
-            nights in Cabin <span>{doctorName}</span>
+            (
+            {isToday(new Date(startDate))
+              ? "just Today"
+              : formatDistanceFromNow(startDate)}
+            ) with <span>{doctorName}</span>
           </p>
         </div>
+        <p className="end">{format(new Date(startDate), "EEE, MMM dd yyyy")}</p>
 
-        <p>
+        {/* <p>
           {format(new Date(startDate), "EEE, MMM dd yyyy")} (
           {isToday(new Date(startDate))
             ? "Today"
             : formatDistanceFromNow(startDate)}
           ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
-        </p>
+        </p> */}
       </Header>
 
       <Section>
         <Patient>
-          {/* {countryFlag && <Flag src={countryFlag} alt={`Flag of ${country}`} />} */}
-          <p>
-            {patientName}
-            {/* {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""} */}
-          </p>
+          <Img src={image} alt="notfound" />
+
+          <p>{patientName}</p>
           <span>&bull;</span>
           <p>{email}</p>
           <span>&bull;</span>
-          {/* <p>National ID {nationalID}</p> */}
+          <p>{mobile}</p>
         </Patient>
-
-        {/* {observations && (
-          <DataItem
-            icon={<HiOutlineChatBubbleBottomCenterText />}
-            label="Observations"
-          >
-            {observations}
-          </DataItem>
-        )} */}
-
-        {/* <DataItem icon={<HiOutlineCheckCircle />} label="Breakfast included?">
-          {hasBreakfast ? "Yes" : "No"}
-        </DataItem> */}
 
         <Price isPaid={isPaid}>
           <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
             {formatCurrency(price)}
-
-            {/* {hasBreakfast &&
-              ` (${formatCurrency(cabinPrice)} cabin + ${formatCurrency(
-                extrasPrice
-              )} breakfast)`} */}
           </DataItem>
 
           <p>{isPaid ? "Paid" : "Will pay at property"}</p>

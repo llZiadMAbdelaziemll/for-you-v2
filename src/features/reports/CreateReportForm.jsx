@@ -1,19 +1,13 @@
 import { useForm } from "react-hook-form";
-
-import Input from "../../ui/Input";
-import Form from "../../ui/Form";
-import Button from "../../ui/Button";
-import FileInput from "../../ui/FileInput";
-import FormRow from "../../ui/FormRow";
-
-// import { useCreateDoctor } from "../doctors/useCreateDoctor";
-// import { useEditDoctor } from "../doctors/useEditDoctor";
 import { useEditReport } from "./useEditReport";
 import { useUpdateAppointment } from "../appointments/useUpdateAppointment";
 import { useEditPatient } from "../patients/useEditPatient";
 import { useCreateReport } from "../reports/useCreateReport";
-import { useCreatePatient } from "../patients/useCreatePatient";
-import { useUser } from "../authentication/useUser";
+import Input from "../../ui/Input";
+import Form from "../../ui/Form";
+import Button from "../../ui/Button";
+import FormRow from "../../ui/FormRow";
+
 function CreateReportForm({
   reportToEdit = {},
   appointment = {},
@@ -24,24 +18,14 @@ function CreateReportForm({
   const { isEditing: isEditing2, editAppointment } = useUpdateAppointment();
   const { isEditing: isEditing3, editPatient } = useEditPatient();
   const { isCreating, createReport } = useCreateReport();
-  const { user } = useUser();
-  const userName = user?.user_metadata?.name;
   const isWorking = isEditing || isEditing2 || isEditing3 || isCreating;
   const { id: editId, ...editValues } = reportToEdit;
   const isEditSession = Boolean(editId);
 
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
+  const { register, handleSubmit, reset, formState } = useForm({
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
-  // const {
-  //   id,
-  //   name,
-  //   doctor,
-  //   image,
-  //   // patients: { id: patientId, name: patientName, image: patientImage },
-  //   patients,
-  // } = appointment;
 
   function onSubmit(data) {
     console.log(data);
@@ -172,17 +156,6 @@ function CreateReportForm({
         />
       </FormRow>
 
-      <FormRow label="Notes" error={errors?.notes?.message}>
-        <Input
-          type="text"
-          id="notes"
-          disabled={isWorking}
-          {...register("notes", {
-            required: "This field is required",
-          })}
-        />
-      </FormRow>
-
       <FormRow label="Medications" error={errors?.medications?.message}>
         <Input
           type="text"
@@ -203,7 +176,16 @@ function CreateReportForm({
           })}
         />
       </FormRow>
-
+      <FormRow label="Followup date" error={errors?.followupDate?.message}>
+        <Input
+          type="date"
+          id="followupDate"
+          disabled={isWorking}
+          {...register("followupDate", {
+            required: "This field is required",
+          })}
+        />
+      </FormRow>
       <FormRow label="Diagnosis" error={errors?.diagnosis?.message}>
         <Input
           type="text"
@@ -219,12 +201,16 @@ function CreateReportForm({
         />
       </FormRow>
 
-      <FormRow label="Followup date" error={errors?.followupDate?.message}>
+      <FormRow
+        // style={{ gridGrow: 1 / -1 }}
+        label="Notes"
+        error={errors?.notes?.message}
+      >
         <Input
-          type="date"
-          id="followupDate"
+          type="text"
+          id="notes"
           disabled={isWorking}
-          {...register("followupDate", {
+          {...register("notes", {
             required: "This field is required",
           })}
         />
