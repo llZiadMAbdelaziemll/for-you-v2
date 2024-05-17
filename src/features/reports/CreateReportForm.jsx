@@ -4,6 +4,7 @@ import { useUpdateAppointment } from "../appointments/useUpdateAppointment";
 import { useEditPatient } from "../patients/useEditPatient";
 import { useCreateReport } from "../reports/useCreateReport";
 import Input from "../../ui/Input";
+import TextArea from "../../ui/TextArea";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
@@ -166,7 +167,7 @@ function CreateReportForm({
           })}
         />
       </FormRow>
-      <FormRow label="Symptoms" error={errors?.symptoms?.message}>
+      {/* <FormRow label="Symptoms" error={errors?.symptoms?.message}>
         <Input
           type="text"
           id="symptoms"
@@ -175,7 +176,7 @@ function CreateReportForm({
             required: "This field is required",
           })}
         />
-      </FormRow>
+      </FormRow> */}
       <FormRow label="Followup date" error={errors?.followupDate?.message}>
         <Input
           type="date"
@@ -201,7 +202,7 @@ function CreateReportForm({
         />
       </FormRow>
 
-      <FormRow
+      {/* <FormRow
         // style={{ gridGrow: 1 / -1 }}
         label="Notes"
         error={errors?.notes?.message}
@@ -214,8 +215,33 @@ function CreateReportForm({
             required: "This field is required",
           })}
         />
+      </FormRow> */}
+
+      <FormRow label="Symptoms" error={errors?.symptoms?.message}>
+        <TextArea
+          type="text"
+          id="symptoms"
+          disabled={isWorking}
+          {...register("symptoms", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
+      <FormRow
+        // style={{ gridGrow: 1 / -1 }}
+        label="Notes"
+        error={errors?.notes?.message}
+      >
+        <TextArea
+          type="text"
+          id="notes"
+          disabled={isWorking}
+          {...register("notes", {
+            required: "This field is required",
+          })}
+        />
+      </FormRow>
       <FormRow>
         {/* type is an HTML attribute! */}
         <Button
